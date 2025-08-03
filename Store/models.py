@@ -17,6 +17,9 @@ class Concerns(models.Model):
 class Integration(models.Model):
     name = models.CharField(max_length=255)
 
+class Tags(models.Model):
+    name = models.CharField(max_length=255)
+
 class Product(models.Model):
     product_id = models.UUIDField(primary_key=True, default=uuid4)
     name = models.CharField(max_length=255)
@@ -29,5 +32,4 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0.01)])
     rating = models.FloatField( validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], default=0.0 )
     image_urls = models.URLField(unique=True)
-    tags = models.CharField(max_length=255)
-
+    tags = models.ManyToManyField(Tags)
