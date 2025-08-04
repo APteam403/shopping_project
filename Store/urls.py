@@ -11,4 +11,7 @@ router.register('concerns', views.ConcernViewSet)
 router.register('skinTypes', views.SkinTypeViewSet)
 router.register('integrations', views.IntegrationViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('', views.index_page, name='index_page'),
+    path('api/', include(router.urls)),
+]

@@ -46,3 +46,6 @@ class SkinTypeViewSet(ModelViewSet):
 class IntegrationViewSet(ModelViewSet):
     queryset = Integration.objects.all()
     serializer_class = IntegrationSerializer
+
+def index_page(response):
+    return render(response, 'Store/index.html')
