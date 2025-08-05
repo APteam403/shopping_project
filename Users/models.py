@@ -1,15 +1,19 @@
 from django.db import models
 
-# Create your models here.
-
 class Users_info(models.Model):
-    User_Id = models.UUIDField(max_length=300, verbose_name='User-Id')
+    class SkinType(models.IntegerChoices):
+        DRY = 1, 'Dry'
+        OILY = 2, 'Oily'
+        COMBINATION = 3, 'Combination'
+        SENSITIVE = 4, 'Sensitive'
+
+    User_Id = models.UUIDField(verbose_name='User-Id')
     name = models.CharField(max_length=300, verbose_name='user-name')
     email = models.EmailField(verbose_name='user-email')
-    device_type = models.TextField(max_length=300, verbose_name='mobile/desktop')
+    device_type = models.CharField(max_length=300, verbose_name='mobile/desktop')
     concerns = models.JSONField(default=list)
     preferences = models.JSONField(default=list)
-    skin_type = models.IntegerChoices("skin_type", "dry oily combination sensitive")
+    skin_type = models.IntegerField(choices=SkinType.choices, verbose_name='Skin Type', null=True)
     created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True, null=True)
 
     class Meta:
