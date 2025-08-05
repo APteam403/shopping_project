@@ -10,3 +10,4 @@ class Users_info(models.Model):
     concerns = models.JSONField(default=list)
     preferences = models.JSONField(default=list)
     skin_type = models.IntegerChoices("skin_type", "dry oily combination sensitive")
+    created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True)
