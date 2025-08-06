@@ -13,6 +13,8 @@ class Users_info(models.Model):
     device_type = models.CharField(max_length=300, verbose_name='mobile/desktop')
     concerns = models.JSONField(default=list)
     preferences = models.JSONField(default=list)
+    likes_products = models.JSONField(default=list)
+    wishlist = models.JSONField(default=list)
     skin_type = models.IntegerField(choices=SkinType.choices, verbose_name='Skin Type', null=True)
     created_at = models.DateTimeField(verbose_name='created_at', auto_now_add=True, null=True)
 
