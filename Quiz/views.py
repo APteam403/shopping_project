@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from .forms import QuizForm
+from django.contrib import messages
+from django.urls import reverse
 
 def create_book(request):
     if request.method == 'POST':
         form = QuizForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'اطلاعات با موفقیت ثبت شد!')
+            return redirect(reverse('book_page'))
     else:
         form = QuizForm()
     
