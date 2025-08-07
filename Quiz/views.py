@@ -9,7 +9,7 @@ def create_book(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'اطلاعات با موفقیت ثبت شد!')
-            return redirect(reverse('book_page'))
+            return redirect(reverse('index_page'))
     else:
         form = QuizForm()
     
