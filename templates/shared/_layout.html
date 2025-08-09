@@ -227,9 +227,11 @@
                                 <span class="discount-badge">۱۱٪ تخفیف</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -252,9 +254,11 @@
                                 <span class="discount-badge">۱۱٪ تخفیف</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -277,9 +281,11 @@
                                 <span class="discount-badge">۹٪ تخفیف</span>
                                 <span class="text-warning small"><i class="fas fa-clock"></i> آخرین موجودی</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -302,9 +308,11 @@
                                 <span class="discount-badge">۱۰٪ تخفیف</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -353,9 +361,11 @@
                                 <span class="badge bg-info">جدید</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -378,9 +388,11 @@
                                 <span class="discount-badge">۱۴٪ تخفیف</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -402,9 +414,11 @@
                                 <span class="badge bg-info">جدید</span>
                                 <span class="text-warning small"><i class="fas fa-clock"></i> آخرین موجودی</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -426,9 +440,11 @@
                                 <span class="badge bg-info">جدید</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <button class="add-to-cart">
-                                <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                            </button>
+                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                         </div>
                     </div>
                 </div>
@@ -581,6 +597,13 @@
                 <div class="col-lg-3 col-md-6">
                     <h5 class="footer-title">درباره ما</h5>
                     <p>فروشگاه اینترنتی مراقبت پوست با هدف ارائه بهترین محصولات مراقبتی و آرایشی با کیفیت بالا تأسیس شده است. ما سلامت و زیبایی پوست شما را تضمین می‌کنیم.</p>
+                    {% if user.is_authenticated %}
+    <p>سلام {{ user.username }}! شما لاگین کرده‌اید.</p>
+    <a href="{% url 'logout_page' %}">خروج</a>
+{% else %}
+    <p>شما لاگین نکرده‌اید.</p>
+    <a href="{% url 'login_page' %}">ورود</a>
+{% endif %}
                     <div class="social-links mt-4">
                         <a href="#"><i class="fab fa-instagram"></i></a>
                         <a href="#"><i class="fab fa-telegram"></i></a>

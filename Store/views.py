@@ -49,3 +49,6 @@ class IntegrationViewSet(ModelViewSet):
 
 def index_page(response):
     return render(response, 'Store/index.html')
+
+def detail_page(request):
+    return render(request, 'Store/detail.html')

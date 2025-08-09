@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from .forms import CustomUserCreationForm, ProfileForm
+from django.contrib.auth import logout
+from .models import Profile
 
 def register_view(request):
     if request.method == 'POST':
@@ -15,9 +17,8 @@ def register_view(request):
             profile.email = user.email
             profile.save()
 
-            # لاگین خودکار
             login(request, user)
-            return redirect('contact_page')
+            return redirect('index_page')
 
     else:
         user_form = CustomUserCreationForm()
@@ -31,3 +32,26 @@ def register_view(request):
         'username14' : f'رمز عبور :',
         'username15' : f'تائید رمز عبور :',
     })
+
+def login_view(request):
+    if request.method == 'POST':
+
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('index_page')
+        else:
+            return render(request, 'Users/signin.html', {'error_message': 'Invalid username or password.'})
+    else:
+        return render(request, 'Users/signin.html')
+
+def logout_view(request):
+    logout(request)
+    return redirect('index_page')
+
+def dashboard(request):
+    return render(request, 'Users/dashboard.html')
