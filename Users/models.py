@@ -30,6 +30,11 @@ class Profile(models.Model):
         verbose_name='نام کامل',
         validators=[MinLengthValidator(3)]
     )
+
+    pocket = models.IntegerField(
+        verbose_name='موجودی', 
+        default=1000
+    )
     
     email = models.EmailField(
         verbose_name='آدرس ایمیل',
@@ -76,13 +81,19 @@ class Profile(models.Model):
     
     # تنظیمات و ترجیحات
     preferences = models.JSONField(
-        verbose_name='ترجیحات محصولات',
+        verbose_name='مورد پسندها',
         default=list,
         blank=True
     )
     
     wishlist = models.JSONField(
         verbose_name='لیست علاقه‌مندی‌ها',
+        default=list,
+        blank=True
+    )
+
+    views_product = models.JSONField(
+        verbose_name='مشاهده شده ها',
         default=list,
         blank=True
     )
@@ -109,8 +120,8 @@ class Profile(models.Model):
     )
 
     class Meta:
-        verbose_name = 'پروفایل کاربر'
-        verbose_name_plural = 'پروفایل‌های کاربران'
+        verbose_name = 'User profile'
+        verbose_name_plural = 'User profiles'
         indexes = [
             models.Index(fields=['email']),
             models.Index(fields=['phone_number']),

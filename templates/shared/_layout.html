@@ -46,20 +46,34 @@
                     </button>
                 </div>
             </div>
-            
+            {% if user.is_authenticated %}
             <div class="col-lg-3 col-md-3 col-6">
                 <div class="user-actions d-flex justify-content-end">
-                    <a href="#" class="user-btn btn btn-outline-secondary me-2 position-relative">
+                    <a href="{% url 'dashboard' %}" class="user-btn btn btn-outline-secondary me-2 position-relative">
                         <i class="fas fa-user"></i>
                         <span class="user-tooltip">حساب کاربری</span>
                     </a>
-                    <a href="#" class="cart-btn btn btn-outline-secondary position-relative">
+                    <a href="{% url 'dashboard' %}" class="cart-btn btn btn-outline-secondary position-relative">
                         <i class="fas fa-shopping-cart"></i>
-                        <span class="cart-count">3</span>
                         <span class="cart-tooltip">سبد خرید</span>
                     </a>
                 </div>
             </div>
+            {% else %}
+            <div class="col-lg-3 col-md-3 col-6">
+                <div class="user-actions d-flex justify-content-end">
+                    <a href="{% url 'login_page' %}" class="user-btn btn btn-outline-secondary me-2 position-relative">
+                        <i class="fas fa-user"></i>
+                        <span class="user-tooltip">حساب کاربری</span>
+                    </a>
+                    <a href="{% url 'login_page' %}" class="cart-btn btn btn-outline-secondary position-relative">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-tooltip">سبد خرید</span>
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+
             
             <!-- جستجو برای موبایل -->
             <div class="col-12 d-md-none mt-3">

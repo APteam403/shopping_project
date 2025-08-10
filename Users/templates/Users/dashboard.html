@@ -158,7 +158,9 @@
         <div class="nav-item" data-panel="favorites">❤️ مورد پسندها</div>
         <div class="nav-item" data-panel="orders">📦 سوابق خرید</div>
         <div class="nav-item" data-panel="wallet">💳 کیف پول</div>
-        <div class="nav-item" data-panel="favorites">💙 علاقه مندی ها</div>
+        <div class="nav-item" data-panel="wishlist">💙 علاقه مندی ها</div>
+        <div class="nav-item" data-panel="quiz">📊 نتایج کوئیز</div>
+        <div class="nav-item" data-panel="routine">📝 مشاهده روتین</div>
         <div class="nav-item" data-panel="cart">🛒 سبد خرید</div>
         <div class="nav-item" id="logout-btn">🚪 خروج</div>
       </nav>
@@ -246,7 +248,7 @@
                 </div>
                 <div style="display:flex;justify-content:space-between">
                   <div class="small">موجودی حساب</div>
-                  <div id="summary-tags" class="muted">1,000,000 تومان</div>
+                  <div id="summary-tags" class="muted">{{ request.user.profile.pocket }} تومان</div>
                 </div>
               </div>
             </div>
@@ -258,6 +260,54 @@
           <div class="card">
             <h4>مورد پسندها</h4>
             <p class="muted">آیتم‌هایی که کاربر ذخیره کرده است.</p>
+
+            <div class="fav-list" id="fav-list">
+                {{ request.user.profile.preferences }}
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="panel" id="panel-quiz" style="display:none">
+          <div class="card">
+            <h4>نتایج کوئیزها</h4>
+            <p class="muted">نتایج کوئیز هایی که در سایت ما ثبت کرده اید.</p>
+
+            <div class="fav-list" id="fav-list">
+              <!-- dynamic items -->
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites -->
+        <div class="panel" id="panel-wishlist" style="display:none">
+          <div class="card">
+            <h4>علاقه مندی ها</h4>
+            <p class="muted">آیتم‌هایی که کاربر ذخیره کرده است.</p>
+
+            <div class="fav-list" id="fav-list">
+              
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites -->
+        <div class="panel" id="panel-routine" style="display:none">
+          <div class="card">
+            <h4>روتین های پوستی</h4>
+            <p class="muted">در اینجا میتوانید روتین های شخصیتان را مشاهده کنید.</p>
 
             <div class="fav-list" id="fav-list">
               <!-- dynamic items -->
@@ -483,7 +533,11 @@
     /* ====== Logout modal ====== */
     qs('#logout-btn').addEventListener('click', ()=>{ qs('#logout-modal').style.display='flex'; });
     qs('#cancel-logout').addEventListener('click', ()=>{ qs('#logout-modal').style.display='none'; });
-    qs('#confirm-logout').addEventListener('click', ()=>{ localStorage.clear(); alert('شما خارج شدید. (demo)'); location.reload(); });
+    document.querySelector('#confirm-logout').addEventListener('click', () => {
+  localStorage.clear();
+  alert('شما خارج شدید.');
+  window.location.href = "{% url 'logout_page' %}";  // انتقال به صفحه لاگآوت
+});
 
     /* ====== initial render ====== */
     function renderAll(){ renderProfile(); renderFavs(); renderOrders(); renderWallet(); renderCart(); }
