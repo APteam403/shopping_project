@@ -224,34 +224,8 @@
             
             <div class="row g-4">
                 <!-- محصول 1 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-card animate-slide-up" style="animation-delay: 0.1s;">
-                        <div class="product-img-container">
-                            <span class="product-badge">پرفروش</span>
-                            <img src="/static/images/2.jpg" 
-                                 class="product-img" alt="کرم مرطوب کننده">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">کرم مرطوب کننده سینره مدل آلوئه ورا 50 میل</h5>
-                            <div class="product-price">
-                                <span class="current-price">۲۴۹,۰۰۰ تومان</span>
-                                <span class="old-price">۲۸۰,۰۰۰ تومان</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="discount-badge">۱۱٪ تخفیف</span>
-                                <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
-                            </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
-    <button class="add-to-cart">
-        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
-    </button>
-</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- محصول 2 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
+            {% for i in products %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="product-card animate-slide-up" style="animation-delay: 0.2s;">
                         <div class="product-img-container">
                             <span class="product-badge">پرفروش</span>
@@ -259,16 +233,16 @@
                                  class="product-img" alt="ضد آفتاب">
                         </div>
                         <div class="product-body">
-                            <h5 class="product-title">ضد آفتاب ایزدین مدل اکتیو SPF50 40 میل</h5>
+                            <h5 class="product-title">{{i.name}}</h5>
                             <div class="product-price">
-                                <span class="current-price">۵۸۰,۰۰۰ تومان</span>
-                                <span class="old-price">۶۵۰,۰۰۰ تومان</span>
+                                <span class="current-price">{{i.price}} تومان</span>
+                                <span class="old-price">{{i.price}} تومان</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="discount-badge">۱۱٪ تخفیف</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+                            <a href="#" class="add-to-cart-link">
     <button class="add-to-cart">
         <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
     </button>
@@ -276,60 +250,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- محصول 3 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-card animate-slide-up" style="animation-delay: 0.3s;">
-                        <div class="product-img-container">
-                            <span class="product-badge">پرفروش</span>
-                            <img src="/static/images/2.jpg" 
-                                 class="product-img" alt="سرم ویتامین C">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">سرم ویتامین C مدل سی گل 15 میل</h5>
-                            <div class="product-price">
-                                <span class="current-price">۳۲۰,۰۰۰ تومان</span>
-                                <span class="old-price">۳۵۰,۰۰۰ تومان</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="discount-badge">۹٪ تخفیف</span>
-                                <span class="text-warning small"><i class="fas fa-clock"></i> آخرین موجودی</span>
-                            </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
-    <button class="add-to-cart">
-        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
-    </button>
-</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- محصول 4 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-card animate-slide-up" style="animation-delay: 0.4s;">
-                        <div class="product-img-container">
-                            <span class="product-badge">پرفروش</span>
-                            <img src="/static/images/2.jpg" 
-                                 class="product-img" alt="ژل شستشو">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">ژل شستشوی صورت سبلان مدل آلوئه ورا 200 میل</h5>
-                            <div class="product-price">
-                                <span class="current-price">۱۸۰,۰۰۰ تومان</span>
-                                <span class="old-price">۲۰۰,۰۰۰ تومان</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="discount-badge">۱۰٪ تخفیف</span>
-                                <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
-                            </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
-    <button class="add-to-cart">
-        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
-    </button>
-</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
@@ -359,6 +280,7 @@
             
             <div class="row g-4">
                 <!-- محصول 5 -->
+                {% for i in products %}
                 <div class="col-xl-3 col-lg-4 col-md-6">
                     <div class="product-card animate-slide-up" style="animation-delay: 0.1s;">
                         <div class="product-img-container">
@@ -367,15 +289,15 @@
                                  class="product-img" alt="کرم شب">
                         </div>
                         <div class="product-body">
-                            <h5 class="product-title">کرم شب نیوآ مدل رتینول 50 میل</h5>
+                            <h5 class="product-title">{{i.name}}</h5>
                             <div class="product-price">
-                                <span class="current-price">۴۲۰,۰۰۰ تومان</span>
+                                <span class="current-price">{{i.price}} تومان</span>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <span class="badge bg-info">جدید</span>
                                 <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
                             </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
+                            <a href="#" class="add-to-cart-link">
     <button class="add-to-cart">
         <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
     </button>
@@ -383,85 +305,7 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- محصول 6 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-card animate-slide-up" style="animation-delay: 0.2s;">
-                        <div class="product-img-container">
-                            <span class="product-badge" style="background-color: #17a2b8;">جدید</span>
-                            <img src="/static/images/2.jpg" 
-                                 class="product-img" alt="ماسک صورت">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">ماسک صورت مدل زغال فعال 100 گرم</h5>
-                            <div class="product-price">
-                                <span class="current-price">۱۵۰,۰۰۰ تومان</span>
-                                <span class="old-price">۱۷۵,۰۰۰ تومان</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="discount-badge">۱۴٪ تخفیف</span>
-                                <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
-                            </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
-    <button class="add-to-cart">
-        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
-    </button>
-</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- محصول 7 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-card animate-slide-up" style="animation-delay: 0.3s;">
-                        <div class="product-img-container">
-                            <span class="product-badge" style="background-color: #17a2b8;">جدید</span>
-                            <img src="/static/images/2.jpg" 
-                                 class="product-img" alt="تونر صورت">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">تونر صورت مدل نیاسینامید 200 میل</h5>
-                            <div class="product-price">
-                                <span class="current-price">۲۸۰,۰۰۰ تومان</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-info">جدید</span>
-                                <span class="text-warning small"><i class="fas fa-clock"></i> آخرین موجودی</span>
-                            </div>
-                            <a href="{% url 'detail_page' %}" class="add-to-cart-link">
-    <button class="add-to-cart">
-        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
-    </button>
-</a>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- محصول 8 -->
-                <div class="col-xl-3 col-lg-4 col-md-6">
-                    <div class="product-card animate-slide-up" style="animation-delay: 0.4s;">
-                        <div class="product-img-container">
-                            <span class="product-badge" style="background-color: #17a2b8;">جدید</span>
-                            <img src="/static/images/2.jpg" 
-                                 class="product-img" alt="کرم دور چشم">
-                        </div>
-                        <div class="product-body">
-                            <h5 class="product-title">کرم دور چشم مدل کافئین 30 میل</h5>
-                            <div class="product-price">
-                                <span class="current-price">۳۲۰,۰۰۰ تومان</span>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-info">جدید</span>
-                                <span class="text-success small"><i class="fas fa-check-circle"></i> موجود در انبار</span>
-                            </div>
-                            <a href="{% url 'detail_page' product.slug %}">مشاهده جزئیات</a>" class="add-to-cart-link">
-    <button class="add-to-cart">
-        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
-    </button>
-</a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

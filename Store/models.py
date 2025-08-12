@@ -51,6 +51,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0.01)])
     rating = models.FloatField( validators=[MinValueValidator(0.0), MaxValueValidator(5.0)], default=0.0 )
     slug = models.SlugField(unique=True, blank=True, max_length=255) 
+    is_active = models.BooleanField(default=True)
     image_urls = models.URLField(unique=True)
 
     def save(self, *args, **kwargs):

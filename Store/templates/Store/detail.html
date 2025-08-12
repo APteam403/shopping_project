@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>جزئیات محصول | فروشگاه مراقبت پوست</title>
+    <title>اطلاعات محصول {{product.name}}</title>
     
     <!-- فونت ایران سنس -->
     <link rel="stylesheet" href="/static/fonts/font-face.css">
@@ -314,6 +314,11 @@
         .in-stock {
             background: rgba(25, 135, 84, 0.1);
             color: #198754;
+        }
+
+        .in-stock2 {
+            background: rgba(25, 135, 84, 0.1);
+            color: #bd1e1e;
         }
         
         .low-stock {
@@ -735,7 +740,7 @@
                 <!-- اطلاعات محصول -->
                 <div class="col-lg-7">
                     <div class="product-info">
-                        <h1 class="product-title mb-3">کرم مرطوب کننده سینره مدل آلوئه ورا حجم 50 میل</h1>
+                        <h1 class="product-title mb-3">{{product.name}}</h1>
                         
                         <div class="product-rating mb-3">
                             <div class="stars">
@@ -744,31 +749,38 @@
                                 <i class="fas fa-star text-warning"></i>
                                 <i class="fas fa-star text-warning"></i>
                                 <i class="fas fa-star-half-alt text-warning"></i>
-                                <span class="ms-2">4.5 از 5 (48 نظر)</span>
+                                <span class="ms-2">{{product.rating}} از 5 (48 نظر)</span>
                             </div>
                         </div>
                         
                         <div class="product-brand mb-3">
                             <span class="text-muted">برند: </span>
-                            <a href="#" class="text-primary fw-bold">سینره</a>
+                            <a href="#" class="text-primary fw-bold">{{product.brand}}</a>
                         </div>
-                        
+                        {% if product.is_active %}
                         <div class="product-availability mb-3">
                             <span class="product-stock-status in-stock animate__animated animate__fadeIn">
                                 <i class="fas fa-check-circle me-2"></i> موجود در انبار
                             </span>
                         </div>
+                        {% else %}
+                        <div class="product-availability mb-3">
+                            <span class="product-stock-status in-stock2 animate__animated animate__fadeIn">
+                                <i class="fas fa-check-circle me-2"></i> در انبار موجود نیست
+                            </span>
+                        </div>
+                        {% endif %}
                         
                         <div class="product-price-info mb-4">
                             <div class="d-flex align-items-center">
-                                <span class="product-price-detail me-3">۲۴۹,۰۰۰ تومان</span>
-                                <span class="product-old-price me-3">۲۸۰,۰۰۰ تومان</span>
+                                <span class="product-price-detail me-3">{{product.price}} تومان</span>
+                                <span class="product-old-price me-3">{{product.price}} تومان</span>
                                 <span class="product-discount-badge animate__animated animate__pulse">۱۱٪ تخفیف</span>
                             </div>
                         </div>
                         
                         <div class="product-short-desc mb-4">
-                            <p>کرم مرطوب کننده آلوئه ورا سینره با ترکیبات گیاهی و طبیعی، پوست شما را به طور عمیق مرطوب کرده و از خشکی و پوسته پوسته شدن آن جلوگیری می‌کند. این محصول مناسب تمامی انواع پوست، به ویژه پوست‌های خشک و حساس می‌باشد.</p>
+                            <p>{{product.description}}</p>
                         </div>
                         
                         <div class="product-features mb-4">
@@ -822,11 +834,11 @@
                             <div class="d-flex">
                                 <div class="me-4">
                                     <span class="text-muted d-block">شناسه محصول:</span>
-                                    <span>SKU-12458</span>
+                                    <span>{{product.slug}}</span>
                                 </div>
                                 <div class="me-4">
                                     <span class="text-muted d-block">دسته‌بندی:</span>
-                                    <a href="#">کرم مرطوب کننده</a>
+                                    <a href="#">{{product.category}}</a>
                                 </div>
                                 <div>
                                     <span class="text-muted d-block">اشتراک گذاری:</span>

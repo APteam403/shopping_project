@@ -49,8 +49,13 @@ class IntegrationViewSet(ModelViewSet):
     serializer_class = IntegrationSerializer
 
 def index_page(response):
-    return render(response, 'Store/index.html')
+    products = Product.objects.all()
+    return render(response, 'Store/index.html', {'products' : products})
 
 def detail_page(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    return render(request, 'Store/detail.html', {'product': product})
+    products = Product.objects.all()
+    return render(request, 'Store/detail.html', {'product': product, 'products': products})
+
+def category_page(request):
+    pass
