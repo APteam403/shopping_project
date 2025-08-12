@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .serializers import *
+from django.shortcuts import get_object_or_404
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.select_related('brand', 'category').prefetch_related('tags', 'skin_type', 'integrations', 'concerns_targeted').all()
@@ -50,5 +51,6 @@ class IntegrationViewSet(ModelViewSet):
 def index_page(response):
     return render(response, 'Store/index.html')
 
-def detail_page(request):
-    return render(request, 'Store/detail.html')
+def detail_page(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    return render(request, 'Store/detail.html', {'product': product})
