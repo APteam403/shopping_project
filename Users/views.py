@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import CustomUserCreationForm, ProfileForm
+from .forms import CustomUserCreationForm, ProfileForm, UserUpdateForm
 from django.contrib.auth import logout
 from .models import Profile
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def register_view(request):
     if request.method == 'POST':
@@ -54,7 +56,22 @@ def logout_view(request):
     return redirect('index_page')
 
 def dashboard(request):
-    if request.user.is_authenticated:
-        return render(request, 'Users/dashboard.html')
-    else:
+    if not request.user.is_authenticated:
         return render(request, 'Users/signin.html')
+    
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'اطلاعات شما با موفقیت به‌روزرسانی شد.')
+            return redirect('dashboard')
+    else:
+        form = UserUpdateForm(instance=profile)
+    
+    context = {
+        'form': form,
+        'profile': profile
+    }
+    return render(request, 'Users/dashboard.html', context)

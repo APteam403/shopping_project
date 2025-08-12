@@ -73,9 +73,8 @@ class Profile(models.Model):
         null=True
     )
     
-    skin_concerns = models.JSONField(
+    skin_concerns = models.TextField(
         verbose_name='نگرانی‌های پوستی',
-        default=list,
         blank=True
     )
     
