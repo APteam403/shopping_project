@@ -6,7 +6,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'brand', 'category', 'price', 'rating']
     list_filter = ['brand', 'category', 'skin_type' ,'tags', 'concerns_targeted']
     search_fields = ['name', 'brand__name', 'category__name']
-    filter_horizontal =['skin_type', 'tags', 'concerns_targeted', 'integrations']
+    filter_horizontal =['skin_type', 'tags', 'concerns_targeted', 'ingredients']
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):
@@ -33,7 +33,7 @@ class ConcernsAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     search_fields = ['name']
 
-@admin.register(Integration)
-class IntegrationAdmin(admin.ModelAdmin):
+@admin.register(Ingredients)
+class IngredientsAdmin(admin.ModelAdmin):
     list_display = ['name', 'id']
     search_fields = ['name']
