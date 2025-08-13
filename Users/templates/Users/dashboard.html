@@ -37,6 +37,53 @@
       max-width:1300px;
       margin:0 auto;
     }
+    .fav-list1 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 0;
+    }
+
+    .fav-list1 .quiz-card {
+        background-color: #80a6ab;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 5px solid #6c5ce7;
+    }
+
+    .fav-list1 .quiz-card h3 {
+        color: #2d3436;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .fav-list1 .quiz-card p {
+        margin: 8px 0;
+        color: #636e72;
+        font-size: 16px;
+    }
+
+    .fav-list1 .quiz-card p strong {
+        color: #2d3436;
+        min-width: 150px;
+        display: inline-block;
+    }
+
+    .fav-list1 .quiz-card .highlight {
+        background-color: #eae7ff;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+        .fav-list1 .quiz-card p strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
 
     /* Sidebar */
     .sidebar{
@@ -290,9 +337,27 @@
             <h4>نتایج کوئیزها</h4>
             <p class="muted">نتایج کوئیز هایی که در سایت ما ثبت کرده اید.</p>
 
-            <div class="fav-list" id="fav-list">
-              <!-- dynamic items -->
-            </div>
+            <div class="fav-list1" id="fav-list1">
+    {% for i in quiz_user %}
+    <div class="quiz-card">
+        <h3>نتایج آزمون کاربر: {{ i.full_name }}</h3>
+        <p><strong>سن:</strong> <span class="highlight">{{ i.age }}</span></p>
+        <p><strong>جنسیت:</strong> {{ i.sex }}</p>
+        <p><strong>آب‌وهوا:</strong> {{ i.weather }}</p>
+        <p><strong>نوع پوست:</strong> <span class="highlight">{{ i.skin_type }}</span></p>
+        <p><strong>رطوبت پوست:</strong> {{ i.skin_moisture }}</p>
+        <p><strong>بافت پوست:</strong> {{ i.skin_texture }}</p>
+        <p><strong>حساسیت پوست:</strong> {{ i.skin_sensitivity }}</p>
+        <p><strong>میزان تماس با آفتاب:</strong> {{ i.sun_exposure }}</p>
+        <p><strong>محصول مورد علاقه:</strong> <span class="highlight">{{ i.favorite_product_type }}</span></p>
+        <p><strong>حساسیت‌ها:</strong> {{ i.if_allergic|default:"-" }}</p>
+    </div>
+    {% empty %}
+    <div class="quiz-card" style="text-align: center; color: #636e72;">
+        هیچ نتیجه‌ای یافت نشد!
+    </div>
+    {% endfor %}
+</div>
 
             <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
               <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>

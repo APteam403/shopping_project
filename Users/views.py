@@ -9,6 +9,7 @@ from Store.models import *
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import json
+from Quiz.models import QuizResults
 
 def register_view(request):
     if request.method == 'POST':
@@ -64,6 +65,8 @@ def dashboard(request):
         return render(request, 'Users/signin.html')
     
     profile, created = Profile.objects.get_or_create(user=request.user)
+
+    quiz_user = QuizResults.objects.filter(username_user=request.user.username)
     
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=profile)
@@ -76,7 +79,8 @@ def dashboard(request):
     
     context = {
         'form': form,
-        'profile': profile
+        'profile': profile,
+        'quiz_user' : quiz_user
     }
     return render(request, 'Users/dashboard.html', context)
 @login_required

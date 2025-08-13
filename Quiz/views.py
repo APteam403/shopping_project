@@ -2,12 +2,19 @@ from django.shortcuts import render, redirect
 from .forms import QuizForm
 from django.contrib import messages
 from django.urls import reverse
+from django.contrib.auth import login, authenticate
+from . import models
 
 def create_book(request):
+    if not request.user.is_authenticated:
+        return render(request, 'login_page')
+    
     if request.method == 'POST':
         form = QuizForm(request.POST)
         if form.is_valid():
-            form.save()
+            quiz = form.save(commit=False)
+            quiz.username_user = request.user.username
+            quiz.save()
             messages.success(request, 'اطلاعات با موفقیت ثبت شد!')
             return redirect(reverse('index_page'))
     else:

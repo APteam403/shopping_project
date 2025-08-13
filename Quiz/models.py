@@ -1,9 +1,6 @@
 from django.db import models
-# from ..Users import models
 
 class QuizResults(models.Model):
-
-    # user = models.ForeignKey(models.Users_info, on_delete=models.CASCADE)
     
     MALE = 'Male'
     FEMALE = 'Female'
@@ -76,6 +73,7 @@ class QuizResults(models.Model):
         (GEL, 'Gel'),
         (SERUM, 'Serum')
     ]
+    username_user = models.CharField(max_length=300, default="", blank=True)
     full_name = models.CharField(max_length=300, default="")
     age = models.PositiveSmallIntegerField()
     sex = models.CharField(max_length=6, choices=SEX_CHOICES, default=MALE)
