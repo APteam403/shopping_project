@@ -827,6 +827,9 @@
                                 <button id="add-to-favorites" data-slug="{{ product.slug }}">
     افزودن به علاقه‌مندی‌ها
 </button>
+<button id="add-to-wishlist" data-slug="{{ product.slug }}">
+افزودن به آرزومندی ها
+</button>
                             </div>
                         </div>
                         
@@ -1416,6 +1419,27 @@ document.getElementById('add-to-favorites').addEventListener('click', function()
     const slug = this.getAttribute('data-slug');
 
     fetch("{% url 'add_to_favorites' %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify({ product_slug: slug })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => {
+        alert('خطایی رخ داد.');
+        console.error('Error:', error);
+    });
+});
+
+document.getElementById('add-to-wishlist').addEventListener('click', function() {
+    const slug = this.getAttribute('data-slug');
+
+    fetch("{% url 'add_to_wishlist' %}", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

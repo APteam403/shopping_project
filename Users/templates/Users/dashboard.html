@@ -303,10 +303,12 @@
         <!-- Favorites -->
         <div class="panel" id="panel-wishlist" style="display:none">
           <div class="card">
-            <h4>علاقه مندی ها</h4>
+            <h4>آرزومندی ها</h4>
             <p class="muted">آیتم‌هایی که کاربر ذخیره کرده است.</p>
 
             <div class="fav-list" id="fav-list">
+
+              {{ request.user.profile.wishlist }}
               
             </div>
 

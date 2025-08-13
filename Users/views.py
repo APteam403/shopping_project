@@ -111,3 +111,36 @@ def add_to_favorites(request):
             'status': 'error',
             'message': f'خطای سرور: {str(e)}'
         }, status=500)
+
+@login_required
+@require_POST
+def add_to_wishlist(request):
+    try:
+        data = json.loads(request.body)
+        product_slug = data.get('product_slug')
+        
+        if not product_slug:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'اسلاگ محصول ارسال نشده است'
+            }, status=400)
+
+        profile = request.user.profile
+        if product_slug not in profile.wishlist:
+            profile.wishlist.append(product_slug)
+            profile.save()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'محصول به آرزومندی ها اضافه شد'
+            })
+        
+        return JsonResponse({
+            'status': 'info',
+            'message': 'این محصول قبلا در آرزومندی ها اضافه شده است'
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': f'خطای سرور: {str(e)}'
+        }, status=500)
