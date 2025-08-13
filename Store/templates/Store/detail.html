@@ -824,9 +824,9 @@
                                 <button class="btn btn-primary me-3 flex-grow-1">
                                     <i class="fas fa-cart-plus me-2"></i> افزودن به سبد خرید
                                 </button>
-                                <button class="btn btn-outline-secondary">
-                                    <i class="far fa-credit-card me-2"></i> خرید مستقیم
-                                </button>
+                                <button id="add-to-favorites" data-slug="{{ product.slug }}">
+    افزودن به علاقه‌مندی‌ها
+</button>
                             </div>
                         </div>
                         
@@ -1410,140 +1410,47 @@
     <!-- اسکریپت‌ها -->
     <script src="/static/js/bootstrap.bundle.min.js"></script>
     <script src="/static/js/swiper-bundle.min.js"></script>
-    <script>
-        // Initialize Swiper for product gallery
-        var galleryThumbs = new Swiper('.productGalleryThumbs', {
-            spaceBetween: 10,
-            slidesPerView: 4,
-            freeMode: true,
-            watchSlidesProgress: true,
-            breakpoints: {
-                576: {
-                    slidesPerView: 4,
-                },
-                768: {
-                    slidesPerView: 5,
-                },
-                992: {
-                    slidesPerView: 4,
-                }
+
+<script>
+document.getElementById('add-to-favorites').addEventListener('click', function() {
+    const slug = this.getAttribute('data-slug');
+
+    fetch("{% url 'add_to_favorites' %}", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify({ product_slug: slug })
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => {
+        alert('خطایی رخ داد.');
+        console.error('Error:', error);
+    });
+});
+
+// تابع کمکی برای گرفتن CSRF Token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i=0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // بررسی نام کوکی
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
-        });
-        
-        var galleryMain = new Swiper('.productGalleryMain', {
-            spaceBetween: 10,
-            navigation: {
-                nextEl: '.gallery-nav-next',
-                prevEl: '.gallery-nav-prev',
-            },
-            thumbs: {
-                swiper: galleryThumbs,
-            },
-        });
-        
-        // Zoom modal functionality
-        function openZoomModal() {
-            const activeSlide = document.querySelector('.productGalleryMain .swiper-slide-active img');
-            const zoomedImage = document.getElementById('zoomedImage');
-            zoomedImage.src = activeSlide.src;
-            document.getElementById('zoomModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
-        
-        function closeZoomModal() {
-            document.getElementById('zoomModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Close modal when clicking outside
-        document.getElementById('zoomModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeZoomModal();
-            }
-        });
-        
-        // Wishlist toggle
-        document.querySelector('.product-wishlist').addEventListener('click', function() {
-            this.classList.toggle('active');
-            const icon = this.querySelector('i');
-            if (this.classList.contains('active')) {
-                icon.classList.remove('far');
-                icon.classList.add('fas');
-                // نمایش اعلان
-                showToast('محصول به لیست علاقه‌مندی‌ها اضافه شد');
-            } else {
-                icon.classList.remove('fas');
-                icon.classList.add('far');
-                // نمایش اعلان
-                showToast('محصول از لیست علاقه‌مندی‌ها حذف شد');
-            }
-        });
-        
-        // Product quantity controls
-        document.querySelector('.increment').addEventListener('click', function() {
-            var input = this.parentNode.querySelector('input');
-            var value = parseInt(input.value);
-            if (value < 10) {
-                input.value = value + 1;
-            }
-        });
-        
-        document.querySelector('.decrement').addEventListener('click', function() {
-            var input = this.parentNode.querySelector('input');
-            var value = parseInt(input.value);
-            if (value > 1) {
-                input.value = value - 1;
-            }
-        });
-        
-        // Product size selection
-        document.querySelectorAll('.product-size-option').forEach(function(item) {
-            item.addEventListener('click', function() {
-                document.querySelectorAll('.product-size-option').forEach(function(i) {
-                    i.classList.remove('active');
-                });
-                this.classList.add('active');
-            });
-        });
-        
-        // Rating input
-        document.querySelectorAll('.rating-input i').forEach(function(star) {
-            star.addEventListener('click', function() {
-                var rating = parseInt(this.getAttribute('data-rating'));
-                document.getElementById('rating-value').value = rating;
-                
-                // Update stars display
-                document.querySelectorAll('.rating-input i').forEach(function(s, index) {
-                    if (index < rating) {
-                        s.classList.remove('far');
-                        s.classList.add('fas');
-                    } else {
-                        s.classList.remove('fas');
-                        s.classList.add('far');
-                    }
-                });
-            });
-        });
-        
-        // تابع نمایش اعلان
-        function showToast(message) {
-            const toast = document.createElement('div');
-            toast.className = 'toast-notification show';
-            toast.innerHTML = `
-                <div class="toast-content">
-                    <i class="fas fa-check-circle"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
-        }
-    </script>
+    }
+    return cookieValue;
+}
+</script>
+
+
 </body>
 </html>

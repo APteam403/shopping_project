@@ -359,14 +359,9 @@
               <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
                 <div>
                   <div class="small">موجودی فعلی</div>
-                  <div class="wallet-amount" id="wallet-amount">0 تومان</div>
+                  <div class="wallet-amount" id="wallet-amount">{{ request.user.profile.pocket }} تومان</div>
                 </div>
                 <div>
-                  <input id="topup-amount" placeholder="مبلغ (تومان)" />
-                  <div style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end">
-                    <button class="btn btn-ghost" id="topup-quick">+۱۰۰,۰۰۰</button>
-                    <button class="btn btn-accent" id="topup">واریز</button>
-                  </div>
                 </div>
               </div>
             </div>

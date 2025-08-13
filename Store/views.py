@@ -57,5 +57,5 @@ def detail_page(request, slug):
     products = Product.objects.all()
     return render(request, 'Store/detail.html', {'product': product, 'products': products})
 
-def category_page(request):
+def category_page(request, name):
     pass

@@ -5,6 +5,10 @@ from django.contrib.auth import logout
 from .models import Profile
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from Store.models import *
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+import json
 
 def register_view(request):
     if request.method == 'POST':
@@ -75,3 +79,35 @@ def dashboard(request):
         'profile': profile
     }
     return render(request, 'Users/dashboard.html', context)
+@login_required
+@require_POST
+def add_to_favorites(request):
+    try:
+        data = json.loads(request.body)
+        product_slug = data.get('product_slug')
+        
+        if not product_slug:
+            return JsonResponse({
+                'status': 'error',
+                'message': 'اسلاگ محصول ارسال نشده است'
+            }, status=400)
+
+        profile = request.user.profile
+        if product_slug not in profile.preferences:
+            profile.preferences.append(product_slug)
+            profile.save()
+            return JsonResponse({
+                'status': 'success',
+                'message': 'محصول به علاقه‌مندی‌ها اضافه شد'
+            })
+        
+        return JsonResponse({
+            'status': 'info',
+            'message': 'این محصول قبلاً در علاقه‌مندی‌ها وجود دارد'
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'status': 'error',
+            'message': f'خطای سرور: {str(e)}'
+        }, status=500)
