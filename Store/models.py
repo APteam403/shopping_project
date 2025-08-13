@@ -4,32 +4,46 @@ from uuid import uuid4
 
 class Brand(models.Model):
     name = models.CharField(max_length=255, unique=True)
-
+    class Meta:
+        verbose_name = 'Brand'
+        
     def __str__(self):
         return self.name
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
     def __str__(self):
         return self.name
 class SkinType(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    class Meta:
+        verbose_name = 'Skin type'
 
     def __str__(self):
         return self.name
 class Concerns(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    class Meta:
+        verbose_name = 'Concern'
 
     def __str__(self):
         return self.name
-class Integration(models.Model):
+class Ingredients(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    class Meta:
+        verbose_name = 'Ingredient'
 
     def __str__(self):
         return self.name
-
 class Tags(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        verbose_name = 'Tag'
 
     def __str__(self):
         return self.name
@@ -44,7 +58,7 @@ class Product(models.Model):
 
     skin_type = models.ManyToManyField(SkinType)
     concerns_targeted = models.ManyToManyField(Concerns)
-    integrations = models.ManyToManyField(Integration)
+    ingredients = models.ManyToManyField(Ingredients)
     tags = models.ManyToManyField(Tags, related_name='products')
 
     price = models.DecimalField(max_digits=15, decimal_places=2, validators=[MinValueValidator(0.01)])
