@@ -84,9 +84,8 @@ class QuizResults(models.Model):
     skin_sensitivity = models.CharField(max_length=3, choices=YES_OR_NO_CHOICE, default=NO)
     skin_concerns = models.TextField(default="")
     sun_exposure = models.CharField(max_length=8, choices=SUN_EXPOSURE_CHOICES, default=MODERATE)
-    # skin_goals = 
     favorite_product_type = models.CharField(max_length=5, choices=FAVORITE_PRODUCT_TYPE_CHOICES, default=CREAM)
-    if_allergic = models.CharField(max_length=300, default="", blank=True)
+    if_allergic = models.TextField(blank=True)
 
     def __str__(self):
         return f'{self.full_name}'
