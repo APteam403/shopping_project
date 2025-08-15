@@ -82,7 +82,7 @@ class QuizResults(models.Model):
     skin_moisture = models.CharField(max_length=16, choices=SKIN_MOISTURE_CHOICES, default=DEHYDRATED)
     skin_texture = models.CharField(max_length=6, choices=SKIN_TEXTURE_CHOICES, default=SMOOTH)
     skin_sensitivity = models.CharField(max_length=3, choices=YES_OR_NO_CHOICE, default=NO)
-    skin_concerns = models.TextField(default="")
+    skin_concerns = models.TextField(default="", blank=True)
     sun_exposure = models.CharField(max_length=8, choices=SUN_EXPOSURE_CHOICES, default=MODERATE)
     favorite_product_type = models.CharField(max_length=5, choices=FAVORITE_PRODUCT_TYPE_CHOICES, default=CREAM)
     if_allergic = models.TextField(blank=True)
