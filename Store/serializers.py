@@ -38,6 +38,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     product_id = serializers.UUIDField(read_only=True)
     rating = serializers.FloatField(read_only=True)
+    views_count = serializers.IntegerField(read_only=True)
 
     brand = serializers.SlugRelatedField(slug_field='name', queryset=Brand.objects.all())
     category = serializers.SlugRelatedField(slug_field='name', queryset=Category.objects.all())

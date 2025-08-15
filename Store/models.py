@@ -52,6 +52,7 @@ class Product(models.Model):
     product_id = models.UUIDField(primary_key=True, default=uuid4, editable=False, unique=True)
     name = models.CharField(max_length=255)
     description = models.TextField()
+    views_count = models.PositiveIntegerField(default=0)
 
     brand = models.ForeignKey(Brand, on_delete=models.PROTECT)
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
