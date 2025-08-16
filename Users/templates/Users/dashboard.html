@@ -209,7 +209,12 @@
         <div class="nav-item" data-panel="quiz">📊 نتایج کوئیز</div>
         <div class="nav-item" data-panel="routine">📝 مشاهده روتین</div>
         <div class="nav-item" data-panel="cart">🛒 سبد خرید</div>
-        <div class="nav-item" id="logout-btn">🚪 خروج</div>
+        <div class="nav-item">
+  <a href="{% url 'logout_page' %}" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
+    🚪 خروج
+  </a>
+</div>
+
       </nav>
 
       <div style="margin-top:18px;color:var(--muted);font-size:13px">
@@ -465,17 +470,6 @@
     </main>
   </div>
 
-  <div class="logout-modal" id="logout-modal">
-    <div class="box">
-      <h3>خروج از حساب</h3>
-      <p class="muted">آیا مطمئن هستید می‌خواهید خارج شوید؟</p>
-      <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
-        <button class="btn btn-ghost" id="cancel-logout">بازگشت</button>
-        <button class="btn btn-accent" id="confirm-logout">خروج</button>
-      </div>
-    </div>
-  </div>
-
   <script>
 
     function saveState(){
@@ -602,13 +596,6 @@
     }
 
     /* ====== Logout modal ====== */
-    qs('#logout-btn').addEventListener('click', ()=>{ qs('#logout-modal').style.display='flex'; });
-    qs('#cancel-logout').addEventListener('click', ()=>{ qs('#logout-modal').style.display='none'; });
-    document.querySelector('#confirm-logout').addEventListener('click', () => {
-  localStorage.clear();
-  alert('شما خارج شدید.');
-  window.location.href = "{% url 'logout_page' %}";  // انتقال به صفحه لاگآوت
-});
 
     /* ====== initial render ====== */
     function renderAll(){ renderProfile(); renderFavs(); renderOrders(); renderWallet(); renderCart(); }
