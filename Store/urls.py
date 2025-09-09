@@ -14,4 +14,8 @@ router.register('ingredients', views.IngredientViewSet)
 urlpatterns = router.urls + [
     path('search-test/', views.search_test_page, name='search_test'),
     path('autocomplete/', views.ProductAutocompleteView.as_view(), name='product-autocomplete'),
+    path('', views.index_page, name='index_page'),
+    path('detail/<slug:slug>/', views.detail_page, name='detail_page'),
+    path('category/', views.category_page, name='category_page'),
+    path('api/', include(router.urls)),
 ]

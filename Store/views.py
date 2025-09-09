@@ -9,6 +9,7 @@ from django.core.cache import cache
 from .models import *
 from .serializers import *
 from .search_documents import ProductDocument
+from django.shortcuts import get_object_or_404
 
 def search_test_page(request):
     return render(request, 'search_test.html')
@@ -215,12 +216,27 @@ class TagViewSet(ModelViewSet):
 
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
+      
 class ConcernViewSet(ModelViewSet):
     queryset = Concerns.objects.all()
     serializer_class = ConcernSerializer
+    
 class SkinTypeViewSet(ModelViewSet):
     queryset = SkinType.objects.all()
-    serializer_class = SkinTypeSerializer
+    serializer_class = SkinTypeSeria
+    
 class IngredientViewSet(ModelViewSet):
     queryset = Ingredients.objects.all()
     serializer_class = IngredientSerializer
+
+def index_page(response):
+    products = Product.objects.all()
+    return render(response, 'Store/index.html', {'products' : products})
+
+def detail_page(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+    products = Product.objects.all()
+    return render(request, 'Store/detail.html', {'product': product, 'products': products})
+
+def category_page(request):
+    return render(request, 'Store/category.html')

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ارزیابی هوشمند پوست | SkinDiagnosis</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- فونت ایران سنس -->
+    <link rel="stylesheet" href="/static/fonts/font-face.css">
+    
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="/static/css/bootstrap.rtl.min.css">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="/static/css/swiper-bundle.min.css">
+    
+    <!-- استایل اختصاصی -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- Font Awesome (از CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css (از CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        :root {
+            --primary-color: #6C5CE7;
+            --secondary-color: #A29BFE;
+            --accent-color: #FD79A8;
+            --dark-color: #2D3436;
+            --light-color: #F5F6FA;
+            --success-color: #00B894;
+            --warning-color: #FDCB6E;
+            --danger-color: #D63031;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Vazir, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--dark-color);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .form-header h1 {
+            color: var(--primary-color);
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-header p {
+            color: var(--dark-color);
+            opacity: 0.8;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 25%;
+            transition: var(--transition);
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #e0e0e0;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-section h2 {
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-section h2 i {
+            margin-left: 10px;
+            color: var(--secondary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-color);
+            transition: var(--transition);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: var(--border-radius);
+            font-family: Vazir, sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--light-color);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        input[type="number"] {
+            max-width: 120px;
+        }
+
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: left 15px center;
+            background-size: 15px;
+            padding-right: 15px;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .radio-option input, .checkbox-option input {
+            width: auto;
+            margin-left: 8px;
+        }
+
+        .errorlist {
+            color: var(--danger-color);
+            list-style: none;
+            padding: 0;
+            margin-top: 5px;
+            font-size: 0.9em;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-5px); }
+            40%, 80% { transform: translateX(5px); }
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 30px;
+            transition: var(--transition);
+            display: block;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        /* استایل برای حالت موبایل */
+        @media (max-width: 768px) {
+            .quiz-container {
+                padding: 30px 20px;
+            }
+            
+            .form-header h1 {
+                font-size: 24px;
+            }
+            
+            .form-section h2 {
+                font-size: 18px;
+            }
+            
+            input, select, textarea {
+                padding: 10px 12px;
+            }
+        }
+
+        /* انیمیشن برای تغییر بخش‌ها */
+        .section-transition {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(-100%); opacity: 0; }
+        }
+
+        .section-active {
+            animation: slideIn 0.5s ease forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        
+        <div class="form-header">
+            <h1><i class="fas fa-spa"></i> ارزیابی هوشمند پوست</h1>
+            <p>لطفا اطلاعات خواسته شده را با دقت تکمیل کنید تا بهترین توصیه‌ها را دریافت نمایید.</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <form method="post" id="quizForm">
+            {% csrf_token %}
+            
+            <!-- بخش اطلاعات عمومی -->
+            <div class="form-section section-active" id="section1">
+                <h2><i class="fas fa-user"></i> اطلاعات عمومی</h2>
+
+                <div class="form-group">
+                    <label>سن :</label>
+                        {{ form.age }}
+                        {{ form.age.errors }}
+                </div>
+
+                <div class="form-group">
+                    <label>نام و نام خانوادگی :</label>
+                        {{ form.full_name }}
+                        {{ form.full_name.errors }}
+                </div>
+                
+                <div class="form-group">
+                    <label>جنسیت :</label>
+                    <div class="form-group">
+                        {{ form.sex }}
+                        {{ form.sex.errors }}
+                </div>
+                </div>
+            </div>
+            
+            <!-- بخش شرایط محیطی -->
+            <div class="form-section" id="section2">
+                <h2><i class="fas fa-cloud-sun"></i> شرایط محیطی</h2>
+                
+                <div class="form-group">
+                    <label>آب و هوای منطقه شما :</label>
+                    <div class="form-group">
+                        {{ form.weather }}
+                        {{ form.weather.errors }}
+                </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>میزان قرارگیری در معرض آفتاب :</label>
+                    <div class="form-group">
+                        {{ form.sun_exposure }}
+                        {{ form.sun_exposure.errors }}
+                </div>
+                </div>
+            </div>
+            
+            <!-- بخش ویژگی‌های پوست -->
+            <div class="form-section" id="section3">
+                <h2><i class="fas fa-hand-holding-water"></i> ویژگی‌های پوست</h2>
+                
+                <div class="form-group">
+                    <label>نوع پوست :</label>
+                    <div class="form-group">
+                        {{ form.skin_type }}
+                        {{ form.skin_type.errors }}
+                </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>میزان رطوبت پوست :</label>
+                    <div class="form-group">
+                        {{ form.skin_moisture }}
+                        {{ form.skin_moisture.errors }}
+                </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>بافت پوست :</label>
+                    <div class="form-group">
+                        {{ form.skin_texture }}
+                        {{ form.skin_texture.errors }}
+                </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>حساسیت پوستی :</label>
+                    <div class="form-group">
+                        {{ form.skin_sensitivity }}
+                        {{ form.skin_sensitivity.errors }}
+                </div>
+                </div>
+            </div>
+            
+            <!-- بخش ترجیحات محصول -->
+            <div class="form-section" id="section4">
+                <h2><i class="fas fa-pump-soap"></i> ترجیحات محصول</h2>
+                
+                <div class="form-group">
+                    <label>نوع محصول مورد علاقه :</label>
+                    <div class="form-group">
+                        {{ form.favorite_product_type }}
+                        {{ form.favorite_product_type.errors }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بخش آلرژی -->
+            <div class="form-section" id="section5">
+                <h2><i class="fas fa-allergies"></i> اطلاعات آلرژی</h2>
+                
+                <div class="form-group">
+                    <label>آیا به مواد خاصی حساسیت دارید؟</label>
+                    <p>در صورت عدم حساسیت به ماده خاصی، این بخش را خالی بگذارید.</p>
+                    <div class="form-group" id="allergicSubstancesGroup">
+                        {{ form.if_allergic }}
+                        {{ form.if_allergic.errors }}
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-paper-plane"></i> ارسال اطلاعات و دریافت نتیجه
+            </button>
+        </form>
+    </div>
+
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/swiper-bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+
+    <script>
+        // مدیریت نمایش/پنهان کردن فیلد مواد حساسیت‌زا
+        const allergicField = document.getElementById('id_if_allergic_0'); // گزینه 'No'
+        const allergicSubstancesGroup = document.getElementById('allergicSubstancesGroup');
+        
+        function toggleAllergicSubstances() {
+            const isAllergic = !document.getElementById('id_if_allergic_0').checked;
+            allergicSubstancesGroup.style.display = isAllergic ? 'block' : 'none';
+            
+            if (isAllergic) {
+                document.getElementById('id_allergic_substances').required = true;
+            } else {
+                document.getElementById('id_allergic_substances').required = false;
+            }
+        }
+        
+        // افزودن رویداد به تمام رادیو باتن‌های if_allergic
+        document.querySelectorAll('input[name="if_allergic"]').forEach(radio => {
+            radio.addEventListener('change', toggleAllergicSubstances);
+        });
+        
+        // مقداردهی اولیه
+        toggleAllergicSubstances();
+        
+        // مدیریت پیشرفت فرم
+        const progressBar = document.querySelector('.progress');
+        const sections = document.querySelectorAll('.form-section');
+        let currentSection = 0;
+        
+        function updateProgress() {
+            const progress = ((currentSection + 1) / sections.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // انیمیشن‌های بخش‌ها
+        function showSection(index) {
+            sections.forEach((section, i) => {
+                if (i === index) {
+                    section.classList.remove('section-transition');
+                    section.classList.add('section-active');
+                } else {
+                    section.classList.remove('section-active');
+                    section.classList.add('section-transition');
+                }
+            });
+            currentSection = index;
+            updateProgress();
+        }
+        
+        // مقداردهی اولیه
+        updateProgress();
+    </script>
+</body>
+</html>
