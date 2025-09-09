@@ -21,9 +21,9 @@ class SkinTypeSerializer(serializers.ModelSerializer):
         model = SkinType
         fields = '__all__'
 
-class IntegrationSerializer(serializers.ModelSerializer):
+class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Integration
+        model = Ingredients
         fields = '__all__'
 
 class ConcernSerializer(serializers.ModelSerializer):
@@ -38,12 +38,13 @@ class ProductSerializer(serializers.ModelSerializer):
 
     product_id = serializers.UUIDField(read_only=True)
     rating = serializers.FloatField(read_only=True)
+    views_count = serializers.IntegerField(read_only=True)
 
     brand = serializers.SlugRelatedField(slug_field='name', queryset=Brand.objects.all())
     category = serializers.SlugRelatedField(slug_field='name', queryset=Category.objects.all())
 
     skin_type = serializers.SlugRelatedField(many=True, slug_field='name', queryset=SkinType.objects.all())
     concerns_targeted = serializers.SlugRelatedField(many=True,slug_field='name', queryset=Concerns.objects.all())
-    integrations = serializers.SlugRelatedField( many=True, slug_field='name', queryset=Integration.objects.all())
+    ingredients = serializers.SlugRelatedField( many=True, slug_field='name', queryset=Ingredients.objects.all())
     tags = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Tags.objects.all())
     
