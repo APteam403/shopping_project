@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
-
 from pathlib import Path
+import os
+
+OPENROUTER_API_KEY = "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"
+OPENROUTER_API_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,6 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'Store',
+    'Users',
+    'Quiz',
 ]
 
 MIDDLEWARE = [

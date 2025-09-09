@@ -13,5 +13,7 @@ router.register('integrations', views.IntegrationViewSet)
 
 urlpatterns = [
     path('', views.index_page, name='index_page'),
+    path('detail/<slug:slug>/', views.detail_page, name='detail_page'),
+    path('category/', views.category_page, name='category_page'),
     path('api/', include(router.urls)),
 ]

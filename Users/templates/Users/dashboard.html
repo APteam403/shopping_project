@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>داشبورد فروش پوستینو</title>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f12; /* very dark */
+      --card:#0f1720;
+      --muted:#9aa6b2;
+      --accent:#16c79a; /* teal */
+      --gold:#d4af37; /* gold accent */
+      --glass: rgba(255,255,255,0.03);
+      --radius:16px;
+      --glass-2: rgba(255,255,255,0.02);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#050608 0%, #071018 60%);
+      color:#e6eef3;
+      font-family: 'Vazirmatn', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:28px;
+    }
+
+    /* Layout */
+    .app{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:28px;
+      align-items:start;
+      max-width:1300px;
+      margin:0 auto;
+    }
+    .fav-list1 {
+        font-family: 'Vazirmatn', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 0;
+    }
+
+    .fav-list1 .quiz-card {
+        background-color: #80a6ab;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
+        border-left: 5px solid #6c5ce7;
+    }
+
+    .fav-list1 .quiz-card h3 {
+        color: #2d3436;
+        margin-top: 0;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .fav-list1 .quiz-card p {
+        margin: 8px 0;
+        color: #636e72;
+        font-size: 14px;
+    }
+
+    .fav-list1 .quiz-card p strong {
+        color: #2d3436;
+        min-width: 150px;
+        display: inline-block;
+    }
+
+    .fav-list1 .quiz-card .highlight {
+        background-color: #eae7ff;
+        padding: 2px 5px;
+        border-radius: 3px;
+    }
+
+    @media (max-width: 768px) {
+        .fav-list1 .quiz-card p strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
+
+    /* Sidebar */
+    .sidebar{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:var(--radius);
+      padding:20px;
+      box-shadow: 0 6px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+      height:calc(100vh - 56px);
+      position:sticky;
+      top:28px;
+      overflow:auto;
+      -webkit-backdrop-filter: blur(6px);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.03);
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;margin-bottom:18px
+    }
+    .logo{
+      width:54px;height:54px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--gold));
+      display:flex;align-items:center;justify-content:center;font-weight:700;color:#071018;font-size:18px;box-shadow:0 6px 18px rgba(21,28,35,0.6);
+    }
+    .brand h1{font-size:16px;margin:0}
+    .brand p{margin:0;color:var(--muted);font-size:12px}
+
+    .profile{
+      display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:linear-gradient(180deg, transparent, rgba(255,255,255,0.01));
+      margin-bottom:18px;border:1px solid rgba(255,255,255,0.02)
+    }
+    .avatar{width:52px;height:52px;border-radius:12px;background:linear-gradient(180deg,#0f2730,#06323a);display:flex;align-items:center;justify-content:center;font-weight:700}
+    .profile .meta{flex:1}
+    .profile .meta h3{margin:0 0 4px 0;font-size:14px}
+    .profile .meta p{margin:0;font-size:12px;color:var(--muted)}
+
+    nav .nav-item{
+      display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;color:var(--muted);cursor:pointer;margin-bottom:8px;transition:all .18s ease;
+    }
+    nav .nav-item:hover{transform:translateX(-6px);color:#fff}
+    nav .nav-item.active{background:linear-gradient(90deg, rgba(22,199,154,0.08), rgba(212,175,55,0.04));color:#fff;border:1px solid rgba(255,255,255,0.03)}
+
+    /* Main */
+    .main{
+      min-height:calc(100vh - 56px);
+    }
+    .header{
+      display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:20px
+    }
+    .search-wrap{display:flex;align-items:center;gap:12px}
+    .search{background:var(--glass);padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);min-width:360px}
+    .actions{display:flex;align-items:center;gap:12px}
+    .icon-btn{background:var(--glass);padding:10px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);cursor:pointer}
+
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .card{background:linear-gradient(180deg,var(--card), rgba(10,14,18,0.6));padding:18px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.02)}
+    .card h4{margin:0 0 8px 0}
+    .muted{color:var(--muted);font-size:13px}
+
+    .profile-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    label{display:block;font-size:13px;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .btn{display:inline-block;padding:10px 14px;border-radius:10px;border:none;cursor:pointer}
+    .btn-accent{background:linear-gradient(90deg,var(--accent), #0fe1c0);color:#021617;font-weight:600}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+
+    /* Favorites list */
+    .fav-list{display:flex;flex-direction:column;gap:10px}
+    .fav-item{display:flex;align-items:center;gap:12px;padding:10px;border-radius:12px;background:var(--glass)}
+    .fav-item img{width:72px;height:56px;border-radius:8px;object-fit:cover}
+
+    /* Orders table */
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;text-align:right;border-bottom:1px solid rgba(255,255,255,0.03);font-size:13px}
+    th{color:var(--muted);font-weight:600}
+
+    /* Wallet */
+    .wallet-amount{font-size:22px;font-weight:700}
+    .small{font-size:12px;color:var(--muted)}
+
+    /* Cart */
+    .cart-item{display:flex;align-items:center;justify-content:space-between;padding:10px;border-radius:10px;background:var(--glass);margin-bottom:8px}
+
+    /* Footer / Logout modal */
+    .logout-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:60}
+    .logout-modal .box{background:linear-gradient(180deg,#071018,#071018);padding:20px;border-radius:12px;width:360px;border:1px solid rgba(255,255,255,0.03)}
+
+    /* responsive */
+    @media (max-width:980px){
+      .app{grid-template-columns:1fr;}
+      .sidebar{position:relative;height:auto}
+      .grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width:620px){
+      .grid{grid-template-columns:1fr}
+      .search{min-width:120px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">LD</div>
+        <div>
+          <h1>فروش پوستینو</h1>
+          <p>خیلی خوش آمدید!</p>
+        </div>
+      </div>
+
+      <div class="profile">
+        <div class="meta">
+          <h3 id="user-name">{{ request.user.profile.name }}</h3>
+          <p id="user-email">{{ user.email }}</p>
+        </div>
+        <button class="icon-btn" id="edit-profile">✎</button>
+      </div>
+
+      <nav>
+        <div class="nav-item active" data-panel="profile">👤 تکمیل اطلاعات</div>
+        <div class="nav-item" data-panel="favorites">❤️ مورد پسندها</div>
+        <div class="nav-item" data-panel="orders">📦 سوابق خرید</div>
+        <div class="nav-item" data-panel="wallet">💳 کیف پول</div>
+        <div class="nav-item" data-panel="wishlist">💙 علاقه مندی ها</div>
+        <div class="nav-item" data-panel="quiz">📊 نتایج کوئیز</div>
+        <div class="nav-item" data-panel="routine">📝 مشاهده روتین</div>
+        <div class="nav-item" data-panel="cart">🛒 سبد خرید</div>
+        <div class="nav-item">
+  <a href="{% url 'logout_page' %}" style="display:block;width:100%;height:100%;text-decoration:none;color:inherit;">
+    🚪 خروج
+  </a>
+</div>
+
+      </nav>
+
+      <div style="margin-top:18px;color:var(--muted);font-size:13px">
+        داشبورد پروژه Ap - محمدرضا حسنی
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="header">
+        <div class="search-wrap">
+          <div style="display:flex;flex-direction:column">
+            <div style="font-size:12px;color:var(--muted)">سلام، <strong id="greeting-name">{{ request.user.profile.name }}</strong></div>
+            <div style="font-size:22px;font-weight:700">داشبورد شما</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <div class="icon-btn">🔔</div>
+          <div class="icon-btn">💬</div>
+          <div class="icon-btn">⚙️</div>
+        </div>
+      </div>
+
+      <!-- Panels -->
+      <section id="panels">
+        <!-- Profile / Interests -->
+        <div class="panel" id="panel-profile">
+          <div class="grid" style="grid-template-columns:2fr 1fr">
+            <div class="card">
+              <h4>تکمیل اطلاعات کاربری</h4>
+              <p class="muted">اطلاعات حساب و علاقه‌مندی‌ها را تکمیل کنید تا تجربهٔ شخصی‌سازی‌شده‌ای داشته باشید.</p>
+
+              <form method="post" class="profile-form">
+              {% csrf_token %}
+                <div class="mb-3">
+                            <label class="form-label">شماره تلفن</label>
+                            {{ form.phone_number }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">تاریخ تولد</label>
+                            {{ form.birth_date }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">جنسیت</label>
+                            {{ form.gender }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">نوع پوست</label>
+                            {{ form.skin_type }}
+                        </div>
+                        
+                        <div class="mb-3" cols="5" rows="5">
+                            <label class="form-label">نگرانی‌های پوستی</label>
+                            {{ form.skin_concerns }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">آدرس</label>
+                            {{ form.address }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">شهر</label>
+                            {{ form.city }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">کد پستی</label>
+                            {{ form.postal_code }}
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">ذخیره اطلاعات</button>
+
+
+              </form>
+
+            </div>
+
+            <div class="card">
+              <h4>خلاصه اطلاعات شخصی</h4>
+              <div style="display:flex;flex-direction:column;gap:12px;margin-top:12px">
+                <div style="display:flex;justify-content:space-between">
+                  <div class="small">نام</div>
+                  <div id="summary-name">{{ request.user.profile.name }}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <div class="small">ایمیل</div>
+                  <div id="summary-email">{{ request.user.profile.email }}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <div class="small">شهر</div>
+                  <div id="summary-city">{{ request.user.profile.city }}</div>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <div class="small">موجودی حساب</div>
+                  <div id="summary-tags" class="muted">{{ request.user.profile.pocket }} تومان</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites -->
+        <div class="panel" id="panel-favorites" style="display:none">
+          <div class="card">
+            <h4>مورد پسندها</h4>
+            <p class="muted">آیتم‌هایی که کاربر ذخیره کرده است.</p>
+
+            <div class="fav-list" id="fav-list">
+                {{ request.user.profile.preferences }}
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz -->
+        <div class="panel" id="panel-quiz" style="display:none">
+          <div class="card">
+            <h4>نتایج کوئیزها</h4>
+            <p class="muted">نتایج کوئیز هایی که در سایت ما ثبت کرده اید.</p>
+
+            <div class="fav-list1" id="fav-list1">
+    {% for i in quiz_user %}
+    <div class="quiz-card">
+        <h3>نتایج آزمون کاربر: {{ i.full_name }}</h3>
+        <p><strong>سن:</strong> <span class="highlight">{{ i.age }}</span></p>
+        <p><strong>جنسیت:</strong> {{ i.sex }}</p>
+        <p><strong>آب‌وهوا:</strong> {{ i.weather }}</p>
+        <p><strong>نوع پوست:</strong> <span class="highlight">{{ i.skin_type }}</span></p>
+        <p><strong>رطوبت پوست:</strong> {{ i.skin_moisture }}</p>
+        <p><strong>بافت پوست:</strong> {{ i.skin_texture }}</p>
+        <p><strong>حساسیت پوست:</strong> {{ i.skin_sensitivity }}</p>
+        <p><strong>میزان تماس با آفتاب:</strong> {{ i.sun_exposure }}</p>
+        <p><strong>محصول مورد علاقه:</strong> <span class="highlight">{{ i.favorite_product_type }}</span></p>
+        <p><strong>حساسیت‌ها:</strong> {{ i.if_allergic|default:"-" }}</p>
+    </div>
+    {% empty %}
+    <div class="quiz-card" style="text-align: center; color: #636e72;">
+        هیچ نتیجه‌ای یافت نشد!
+    </div>
+    {% endfor %}
+</div>
+          </div>
+        </div>
+
+        <!-- Favorites -->
+        <div class="panel" id="panel-wishlist" style="display:none">
+          <div class="card">
+            <h4>آرزومندی ها</h4>
+            <p class="muted">آیتم‌هایی که کاربر ذخیره کرده است.</p>
+
+            <div class="fav-list" id="fav-list">
+
+              {{ request.user.profile.wishlist }}
+              
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Favorites -->
+        <div class="panel" id="panel-routine" style="display:none">
+          <div class="card">
+            <h4>روتین های پوستی</h4>
+            <p class="muted">در اینجا میتوانید روتین های شخصیتان را مشاهده کنید.</p>
+
+            <div class="fav-list" id="fav-list">
+              <!-- dynamic items -->
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+              <button class="btn btn-ghost" id="clear-favs">پاک کردن همه</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders -->
+        <div class="panel" id="panel-orders" style="display:none">
+          <div class="card">
+            <h4>سوابق خرید</h4>
+            <p class="muted">تراکنش‌ها و سفارشات اخیر شما</p>
+
+            <table style="margin-top:12px">
+              <thead>
+                <tr><th>تاریخ</th><th>شماره سفارش</th><th>مبلغ</th><th>وضعیت</th></tr>
+              </thead>
+              <tbody id="orders-tbody">
+                <!-- dynamic rows -->
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+
+        <!-- Wallet -->
+        <div class="panel" id="panel-wallet" style="display:none">
+          <div class="grid" style="grid-template-columns:1fr 1fr">
+            <div class="card">
+              <h4>کیف پول</h4>
+              <p class="muted">موجودی قابل استفاده در خرید.</p>
+              <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+                <div>
+                  <div class="small">موجودی فعلی</div>
+                  <div class="wallet-amount" id="wallet-amount">{{ request.user.profile.pocket }} تومان</div>
+                </div>
+                <div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h4>تراکنش‌های اخیر</h4>
+              <div id="wallet-log" style="margin-top:12px;display:flex;flex-direction:column;gap:8px"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cart -->
+        <div class="panel" id="panel-cart" style="display:none">
+          <div class="grid" style="grid-template-columns:2fr 1fr">
+            <div class="card">
+              <h4>سبد خرید</h4>
+              <p class="muted">آیتم‌های انتخاب‌شده برای خرید</p>
+
+              <div id="cart-list" style="margin-top:12px"></div>
+
+            </div>
+
+            <div class="card">
+              <h4>جمع و نهایی‌سازی</h4>
+              <div style="margin-top:12px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;justify-content:space-between"><div class="small">مجموع</div><div id="cart-total">0 تومان</div></div>
+                <div style="display:flex;gap:8px;justify-content:flex-end">
+                  <button class="btn btn-ghost" id="clear-cart">پاک کردن</button>
+                  <button class="btn btn-accent" id="checkout">پرداخت</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+
+    function saveState(){
+      localStorage.setItem('ld_profile', JSON.stringify(state.profile));
+      localStorage.setItem('ld_favs', JSON.stringify(state.favorites));
+      localStorage.setItem('ld_orders', JSON.stringify(state.orders));
+      localStorage.setItem('ld_wallet', JSON.stringify(state.wallet));
+      localStorage.setItem('ld_cart', JSON.stringify(state.cart));
+    }
+
+    /* ====== UI helpers ====== */
+    function qs(sel, el=document) { return el.querySelector(sel); }
+    function qsa(sel, el=document) { return Array.from(el.querySelectorAll(sel)); }
+
+    /* ====== Navigation ====== */
+    qsa('.nav-item').forEach(item => item.addEventListener('click', (e)=>{
+      const panel = item.dataset.panel;
+      if(panel){ showPanel(panel); qsa('.nav-item').forEach(n=>n.classList.remove('active')); item.classList.add('active'); }
+    }));
+
+    function showPanel(name){
+      qsa('.panel').forEach(p=>p.style.display='none');
+      qs('#panel-'+name).style.display='block';
+    }
+
+    /* ====== Profile form ====== */
+
+    // tag buttons
+    qsa('[data-tag]').forEach(btn=>btn.addEventListener('click',()=>{
+      const t=btn.dataset.tag;
+      const idx = state.profile.tags.indexOf(t);
+      if(idx===-1) state.profile.tags.push(t);
+      else state.profile.tags.splice(idx,1);
+      saveState(); renderProfile();
+      // toggle class visual
+      btn.classList.toggle('btn-accent', state.profile.tags.includes(t));
+    }));
+
+    /* ====== Favorites ====== */
+    function renderFavs(){
+      const list = qs('#fav-list'); list.innerHTML='';
+      if(!state.favorites.length){ list.innerHTML = '<div class="muted">موردی ذخیره نشده است.</div>'; return; }
+      state.favorites.forEach((it, i)=>{
+        const div = document.createElement('div'); div.className='fav-item';
+        div.innerHTML = `
+          <img src="${it.img||'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'140\'><rect width=\'100%\' height=\'100%\' fill=\'%23121a1f\'/></svg>'}" alt="item" />
+          <div style=\"flex:1;text-align:right\"><div style=\"font-weight:600\">${it.title}</div><div class=\"muted\">${it.price || ''}</div></div>
+          <div style=\"display:flex;flex-direction:column;gap:6px\"><button class=\"btn btn-ghost\" data-idx=\"${i}\">نمایش</button><button class=\"btn btn-accent\" data-remove=\"${i}\">حذف</button></div>
+        `;
+        list.appendChild(div);
+      })
+    }
+    qs('#clear-favs').addEventListener('click', ()=>{ if(confirm('پاک کردن همهٔ مورد پسندها؟')){ state.favorites=[]; saveState(); renderFavs(); } });
+    document.addEventListener('click', (e)=>{
+      if(e.target.dataset.remove!==undefined){ const i=+e.target.dataset.remove; state.favorites.splice(i,1); saveState(); renderFavs(); }
+    });
+
+    /* ====== Orders ====== */
+    function renderOrders(){
+      const tbody = qs('#orders-tbody'); tbody.innerHTML='';
+      if(!state.orders.length){ tbody.innerHTML='<tr><td colspan="4" class="muted">هیچ سفارشی ثبت نشده است.</td></tr>'; return; }
+      state.orders.slice().reverse().forEach(o=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${o.date}</td><td>${o.id}</td><td>${o.amount} تومان</td><td>${o.status}</td>`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ====== Wallet ====== */
+    function renderWallet(){
+      qs('#wallet-amount').textContent = formatToman(state.wallet.amount) + ' تومان';
+      const log = qs('#wallet-log'); log.innerHTML='';
+      if(!state.wallet.log.length) log.innerHTML = '<div class="muted">فعالیت تراکنشی وجود ندارد.</div>';
+      state.wallet.log.slice().reverse().forEach(it=>{
+        const d = document.createElement('div'); d.className='small muted'; d.textContent = `${it.date} — ${it.title} — ${formatToman(it.amount)} تومان`; log.appendChild(d);
+      })
+    }
+    qs('#topup-quick').addEventListener('click', ()=>{ topup(100000); });
+    qs('#topup').addEventListener('click', ()=>{
+      const v = parseInt((qs('#topup-amount').value||'0').replace(/[^0-9]/g,''),10)||0; if(v<=0){ alert('مبلغ معتبر وارد کنید'); return;} topup(v);
+    });
+    function topup(amount){ state.wallet.amount += amount; state.wallet.log.push({date: new Date().toLocaleString('fa-IR'), title: 'واریز کیف پول', amount}); saveState(); renderWallet(); alert('واریز با موفقیت انجام شد.'); }
+
+    /* ====== Cart ====== */
+    function renderCart(){
+      const list = qs('#cart-list'); list.innerHTML='';
+      if(!state.cart.length) list.innerHTML = '<div class="muted">سبد خرید خالی است.</div>'; else {
+        state.cart.forEach((c,i)=>{
+          const d = document.createElement('div'); d.className='cart-item';
+          d.innerHTML = `<div style='display:flex;align-items:center;gap:12px'><img src='${c.img||''}' style='width:72px;height:56px;border-radius:8px;object-fit:cover' /><div style='text-align:right'><div style='font-weight:700'>${c.title}</div><div class='muted'>${c.qty} × ${formatToman(c.price)} تومان</div></div></div><div style='display:flex;flex-direction:column;gap:6px;align-items:flex-end'><div style='font-weight:700'>${formatToman(c.qty*c.price)} تومان</div><div style='display:flex;gap:6px'><button class='btn btn-ghost' data-decr='${i}'>-</button><button class='btn btn-ghost' data-incr='${i}'>+</button><button class='btn btn-ghost' data-rem='${i}'>حذف</button></div></div>`;
+          list.appendChild(d);
+        });
+      }
+      renderCartTotal();
+    }
+    function renderCartTotal(){
+      const total = state.cart.reduce((s,it)=>s + (it.price*it.qty),0);
+      qs('#cart-total').textContent = formatToman(total) + ' تومان';
+    }
+    qs('#clear-cart').addEventListener('click', ()=>{ if(confirm('پاک کردن سبد؟')){ state.cart=[]; saveState(); renderCart(); } });
+    qs('#checkout').addEventListener('click', ()=>{
+      if(!state.cart.length){ alert('سبد خرید خالی است.'); return; }
+      const total = state.cart.reduce((s,it)=>s + (it.price*it.qty),0);
+      if(state.wallet.amount < total){ if(!confirm('موجودی کافی نیست. به کیف پول اضافه کنید؟')) return; }
+      // simulate order
+      const order = {date: new Date().toLocaleString('fa-IR'), id: 'ORD'+Date.now(), amount: total, status: 'در انتظار ارسال'};
+      state.orders.push(order);
+      state.wallet.amount -= total;
+      state.wallet.log.push({date: new Date().toLocaleString('fa-IR'), title: 'خرید', amount: -total});
+      state.cart=[]; saveState(); renderAll(); alert('سفارش ثبت شد — شماره سفارش: '+order.id);
+    });
+
+    document.addEventListener('click',(e)=>{
+      if(e.target.dataset.incr!==undefined){ const i=+e.target.dataset.incr; state.cart[i].qty++; saveState(); renderCart(); }
+      if(e.target.dataset.decr!==undefined){ const i=+e.target.dataset.decr; if(state.cart[i].qty>1) state.cart[i].qty--; else state.cart.splice(i,1); saveState(); renderCart(); }
+      if(e.target.dataset.rem!==undefined){ const i=+e.target.dataset.rem; state.cart.splice(i,1); saveState(); renderCart(); }
+    });
+
+    /* ====== Utilities ====== */
+    function formatToman(n){
+      try{
+        return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }catch(e){return n}
+    }
+
+    /* ====== Logout modal ====== */
+
+    /* ====== initial render ====== */
+    function renderAll(){ renderProfile(); renderFavs(); renderOrders(); renderWallet(); renderCart(); }
+    seedDemo(); renderAll();
+
+    // wire edit profile shortcut
+    qs('#edit-profile').addEventListener('click', ()=>{ showPanel('profile'); qsa('.nav-item').forEach(n=>n.classList.remove('active')); qsa('.nav-item').find(n=>n.dataset.panel==='profile').classList.add('active'); });
+
+    // export JSON
+    qs('#export-json').addEventListener('click', ()=>{
+      const blob = new Blob([JSON.stringify(state.profile,null,2)],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='profile.json'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    // small accessibility: allow pressing Esc to close modal
+    document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') qs('#logout-modal').style.display='none'; });
+
+  </script>
+</body>
+</html>
