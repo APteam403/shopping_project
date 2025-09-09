@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .serializers import *
-from django.shortcuts import get_object_or_404
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.select_related('brand', 'category').prefetch_related('tags', 'skin_type', 'integrations', 'concerns_targeted').all()
@@ -49,13 +48,4 @@ class IntegrationViewSet(ModelViewSet):
     serializer_class = IntegrationSerializer
 
 def index_page(response):
-    products = Product.objects.all()
-    return render(response, 'Store/index.html', {'products' : products})
-
-def detail_page(request, slug):
-    product = get_object_or_404(Product, slug=slug)
-    products = Product.objects.all()
-    return render(request, 'Store/detail.html', {'product': product, 'products': products})
-
-def category_page(request, name):
-    pass
+    return render(response, 'Store/index.html')
