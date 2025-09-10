@@ -14,20 +14,40 @@ def search_test_page(request):
     return render(request, 'search_test.html')
 class ProductViewSet(ModelViewSet):
     serializer_class = ProductSerializer
-    queryset = Product.objects.select_related('brand', 'category').prefetch_related('tags')
+    queryset = Product.objects.select_related('brand', 'category').prefetch_related('tags', 'ingredients', 'concerns_targeted', 'skin_type')
 
     def get_queryset(self):
         q = (self.request.query_params.get('q') or '').strip()
-        if not q or len(q) < 2:
-            return self.queryset
-
+        if not q or len(q) < 1:
+            queryset = self.queryset
+            
+            sort = self.request.query_params.get('sort') or self.request.query_params.get('ordering')
+            if sort == 'views' or sort == '-views_count':
+                queryset = queryset.order_by('-views_count')
+            elif sort == 'rating_high' or sort == '-rating':
+                queryset = queryset.order_by('-rating')
+            elif sort == 'rating_low' or sort == 'rating':
+                queryset = queryset.order_by('rating')
+            elif sort == 'price_high' or sort == '-price':
+                queryset = queryset.order_by('-price')
+            elif sort == 'price_low' or sort == 'price':
+                queryset = queryset.order_by('price')
+            return queryset
+        
         s = ProductDocument.search().query(
-            'multi_match',
-            query=q,
-            fields=["name^4", "brand.name^2", "category.name^2", "tags", "name_ngram^2", "brand_ngram", "category_ngram"],
-            fuzziness="AUTO",
-            prefix_length=2
+            'bool',
+            should=[
+                {'match': {'name_exact': {'query': q.lower(), 'boost': 10}}},
+                {'match': {'brand_exact': {'query': q.lower(), 'boost': 8}}},
+                {'match': {'category_exact': {'query': q.lower(), 'boost': 6}}},
+                {'match': {'name_ngram': {'query': q, 'boost': 6, 'fuzziness': 'AUTO'}}},
+                {'match': {'brand_ngram': {'query': q, 'boost': 4, 'fuzziness': 'AUTO'}}},
+                {'match': {'category_ngram': {'query': q, 'boost': 4, 'fuzziness': 'AUTO'}}},
+                {'match': {'tags': {'query': q, 'boost': 3}}},
+            ],
+            minimum_should_match=1
         )
+        
         total_count = s.count()
         response = s[:total_count].execute()
         ids = [hit.meta.id for hit in response if getattr(hit.meta, 'id', None)]
@@ -38,12 +58,10 @@ class ProductViewSet(ModelViewSet):
         preserved_order_case = Case(
             *[When(product_id=pk, then=pos) for pos, pk in enumerate(ids)],
             default=len(ids),
-            output_field=models.IntegerField()
-        )
+            output_field=models.IntegerField())
 
         combined_qs = Product.objects.filter(product_id__in=ids).annotate(
-            search_order=preserved_order_case
-        )
+            search_order=preserved_order_case)
 
         sort = self.request.query_params.get('sort')
         if sort == 'views':
@@ -81,14 +99,13 @@ class ProductAutocompleteView(APIView):
         
         try:
             s = ProductDocument.search()
-
             for field, _, _ in self.SUGGESTION_FIELDS:
                 s = s.suggest(
                     field,
                     q,
                     completion={
                         'field': field,
-                        'fuzzy': {'fuzziness': 1},
+                        'fuzzy': {'fuzziness': 2},
                         'size': 8,
                         'skip_duplicates': True
                     }
@@ -123,7 +140,6 @@ class ProductAutocompleteView(APIView):
                     ).values_list('name', flat=True)[:5])
 
             return Response(sorted(results))
-
 class BrandViewSet(ModelViewSet):
     queryset = Brand.objects.all()
     serializer_class = BrandSerializer
@@ -132,9 +148,23 @@ class BrandViewSet(ModelViewSet):
     def products(self, request, pk=None):
         brand = self.get_object()
         products = Product.objects.filter(brand=brand)
+        
+        sort = request.query_params.get('sort')
+        if sort == 'views':
+            products = products.order_by('-views_count')
+        elif sort == 'rating_high':
+            products = products.order_by('-rating')
+        elif sort == 'rating_low':
+            products = products.order_by('rating')
+        elif sort == 'price_high':
+            products = products.order_by('-price')
+        elif sort == 'price_low':
+            products = products.order_by('price')
+        else:
+            products = products.order_by('name')  
+
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
-
 class CategoryViewSet(ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
@@ -143,21 +173,54 @@ class CategoryViewSet(ModelViewSet):
     def products(self, request, pk=None):
         category = self.get_object()
         products = Product.objects.filter(category=category)
+
+        sort = request.query_params.get('sort')
+        if sort == 'views':
+            products = products.order_by('-views_count')
+        elif sort == 'rating_high':
+            products = products.order_by('-rating')
+        elif sort == 'rating_low':
+            products = products.order_by('rating')
+        elif sort == 'price_high':
+            products = products.order_by('-price')
+        elif sort == 'price_low':
+            products = products.order_by('price')
+        else:
+            products = products.order_by('name')  
+
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
-
 class TagViewSet(ModelViewSet):
     queryset = Tags.objects.all()
     serializer_class = TagSerializer
 
+    @action(detail=True, methods=["get"], url_path="products")
+    def products(self, request, pk=None):
+        tag = self.get_object()
+        products = Product.objects.filter(tags=tag)
+        
+        sort = request.query_params.get('sort')
+        if sort == 'views':
+            products = products.order_by('-views_count')
+        elif sort == 'rating_high':
+            products = products.order_by('-rating')
+        elif sort == 'rating_low':
+            products = products.order_by('rating')
+        elif sort == 'price_high':
+            products = products.order_by('-price')
+        elif sort == 'price_low':
+            products = products.order_by('price')
+        else:
+            products = products.order_by('name')  
+
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
 class ConcernViewSet(ModelViewSet):
     queryset = Concerns.objects.all()
     serializer_class = ConcernSerializer
-
 class SkinTypeViewSet(ModelViewSet):
     queryset = SkinType.objects.all()
     serializer_class = SkinTypeSerializer
-
 class IngredientViewSet(ModelViewSet):
     queryset = Ingredients.objects.all()
     serializer_class = IngredientSerializer
