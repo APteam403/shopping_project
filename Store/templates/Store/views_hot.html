@@ -1241,145 +1241,9 @@
     <!-- محتوای اصلی -->
     <div class="container">
         <div class="row">
-            <!-- سایدبار فیلترها -->
-            <div class="col-lg-3 d-none d-lg-block">
-                <div class="filter-section sticky-top" style="top: 20px;">
-                    <h5 class="filter-title">فیلتر محصولات</h5>
-                    
-                    <!-- فیلتر برند -->
-                    <div class="filter-group">
-                        <h6 class="filter-group-title">برند</h6>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="brand" value="sinerge"> سینره
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="brand" value="izdin"> ایزدین
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="brand" value="seegol"> سی گل
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="brand" value="sabalan"> سبلان
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="brand" value="nivea"> نیوآ
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- فیلتر قیمت -->
-                    <div class="filter-group">
-                        <h6 class="filter-group-title">محدوده قیمت</h6>
-                        <div class="filter-option">
-                            <label>
-                                <input type="radio" name="price" value="0-100000"> زیر ۱۰۰ هزار تومان
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="radio" name="price" value="100000-300000"> ۱۰۰ تا ۳۰۰ هزار تومان
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="radio" name="price" value="300000-500000"> ۳۰۰ تا ۵۰۰ هزار تومان
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="radio" name="price" value="500000-1000000"> ۵۰۰ هزار تا ۱ میلیون تومان
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="radio" name="price" value="1000000"> بالای ۱ میلیون تومان
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- فیلتر نوع پوست -->
-                    <div class="filter-group">
-                        <h6 class="filter-group-title">نوع پوست</h6>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="skin_type" value="dry"> خشک
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="skin_type" value="oily"> چرب
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="skin_type" value="combination"> مختلط
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="skin_type" value="sensitive"> حساس
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="skin_type" value="normal"> معمولی
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- فیلتر ویژگی‌ها -->
-                    <div class="filter-group">
-                        <h6 class="filter-group-title">ویژگی‌ها</h6>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="features" value="hypoallergenic"> هایپوآلرژیک
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="features" value="organic"> ارگانیک
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="features" value="vegan"> وگان
-                            </label>
-                        </div>
-                        <div class="filter-option">
-                            <label>
-                                <input type="checkbox" name="features" value="paraben_free"> بدون پارابن
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <button class="btn btn-primary w-100 mt-3">اعمال فیلترها</button>
-                    <button class="btn btn-outline-secondary w-100 mt-2">حذف فیلترها</button>
-                </div>
-            </div>
+            
             
             <!-- لیست محصولات -->
-            <div class="col-lg-9">
-                <!-- مرتب‌سازی -->
-                <div class="sort-options">
-                    <h6 class="sort-title">مرتب‌سازی بر اساس:</h6>
-                    <select class="sort-select">
-                        <option value="popular">پربازدیدترین</option>
-                        <option value="newest">جدیدترین</option>
-                        <option value="bestselling">پرفروش‌ترین</option>
-                        <option value="price_asc">ارزان‌ترین</option>
-                        <option value="price_desc">گران‌ترین</option>
-                        <option value="discount">بیشترین تخفیف</option>
-                    </select>
-                </div>
                 
                 <!-- تعداد نتایج -->
 
@@ -1390,23 +1254,24 @@
                     <div class="col-xl-4 col-lg-6 col-md-6">
                         <div class="product-card-category">
                             <div class="product-img-container-category">
-                                <img src="https://dkstatics-public.digikala.com/digikala-products/5f9b2e0c9b9b0e1f8e8b8b0e1f8e8b8b0e1f8e8b8b0e1f8e8b8b0e1f8.jpg" class="product-img-category" alt="کرم مرطوب کننده سینره">
+                                <img src="/static/images/2.jpg" class="product-img-category" alt="">
                                 <span class="product-badge-category">پرفروش</span>
-                                <span class="product-badge-category" style="left: auto; right: 15px; background-color: #27ae60;">۱۵%</span>
+                                <span class="product-badge-category" style="left: auto; right: 15px; background-color: #27ae60;">0%</span>
                             </div>
                             <div class="product-body-category">
                                 <h5 class="product-title-category">{{ i.name }}</h5>
                                 <div class="product-price-category">
                                     <span class="current-price-category">{{ i.price }} تومان</span>
-                                    <span class="old-price-category">۲۹۹,۰۰۰ تومان</span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <span class="discount-badge-category">۱۵% تخفیف</span>
+                                    <span class="discount-badge-category">0% تخفیف</span>
                                     <span class="text-success small"><i class="fas fa-check-circle"></i> موجود</span>
                                 </div>
-                                <button class="add-to-cart-category">
-                                    <i class="fas fa-cart-plus ms-2"></i> افزودن به سبد خرید
-                                </button>
+                                <a href="{% url 'detail_page' i.slug %}" class="add-to-cart-link">
+    <button class="add-to-cart">
+        <i class="fas fa-cart-plus ms-2"></i> مشاهده جزئیات محصول
+    </button>
+</a>
                             </div>
                         </div>
                     </div>

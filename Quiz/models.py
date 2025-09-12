@@ -86,8 +86,6 @@ class QuizResults(models.Model):
     sun_exposure = models.CharField(max_length=8, choices=SUN_EXPOSURE_CHOICES, default=MODERATE)
     favorite_product_type = models.CharField(max_length=5, choices=FAVORITE_PRODUCT_TYPE_CHOICES, default=CREAM)
     if_allergic = models.TextField(blank=True)
-    api_response = models.JSONField(blank=True, null=True)
-    image_analysis_data = models.JSONField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.full_name}'
@@ -97,5 +95,5 @@ class ImageAnalysisResults(models.Model):
     skin_concerns = models.TextField(default="", blank=True)
 
 class SkinCareRoutine(models.Model):
-    username = models.CharField(max_length=300, default="unknown")
+    username_user = models.CharField(max_length=300, default="unknown")
     routine = models.TextField()

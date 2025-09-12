@@ -10,7 +10,6 @@ Skin Moisture: {skin_moisture}
 Skin Texture: {skin_texture}
 Skin Sensitivity Level: {skin_sensitivity}
 Sun Exposure Level: {sun_exposure}
-Skin_concerns = {skin_concerns}
 Favorite Product Type: {favorite_product_type}
 Allergic Substances(if any, blank if none exists): {if_allergic}
 
@@ -49,5 +48,7 @@ Please:
 {{
     "skin_concerns" = "string"
 }}
-note that the string should contain the skin concerns, devided by '-' characters.
+note that the string should contain the skin concerns, devided by '-' characters 
+(note that a concern like "possible acne" should not have '-' characters in itself (shouldn't look like: (possible-acne)),
+and a possible outcome should look like this: concern1 - concern2 - concern3).
 """

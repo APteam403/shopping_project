@@ -376,13 +376,20 @@
         <p><strong>حساسیت‌ها:</strong> {{ i.if_allergic|default:"-" }}</p>
 
     <div style="margin-top: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
-    <h4 style="margin-top: 0; color: #2c3e50;">ارسال لینک عکس</h4>
+    <h4 style="margin-top: 0; color: #2c3e50;">باز کردن لینک عکس</h4>
     <div>
         <input type="url" id="userUrl" style="width: 100%; padding: 12px; border: 1px solid #000000; border-radius: 4px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; color: black;" placeholder="https://example.com/image.jpg" required>
-        <button onclick="analyzeSkinImage(event)" style="background-color: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">ارسال لینک</button>
+        <button onclick="openUserUrl(event)" style="background-color: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">باز کردن لینک</button>
     </div>
-    <div id="analysisResult" style="margin-top: 15px; display: none;"></div>
-    <p style="font-size: 14px; color: #666; margin-top: 10px;">با کلیک روی دکمه ارسال لینک میتوانید به ما در ساختن روتین پوستی بهتر کمک کنید.</p>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">با کلیک روی دکمه، به لینک تصویر هدایت می‌شوید.</p>
+</div>
+
+    <div style="margin-top: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+    <div>
+        <input type="url" id="userUrl" style="width: 100%; padding: 12px; border: 1px solid #000000; border-radius: 4px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; color: black;" placeholder="https://example.com/quiz" required>
+        <button onclick="openUserUrl(event)" style="background-color: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">ساختن روتین پوستی</button>
+    </div>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">با کلیک روی دکمه مقابل بر اساس کوئیز داده شده و اطلاعات دیگر برای شما روتین جنریتور ساخته میشود.</p>
 </div>
 </div>
     {% empty %}
@@ -417,6 +424,10 @@
           <div class="card">
             <h4>روتین های پوستی</h4>
             <p class="muted">در اینجا میتوانید روتین های شخصیتان را مشاهده کنید.</p>
+
+            {% for i in routine_user %}
+            <p>{{i.routine}}</p>
+            {% endfor %}
 
             <div class="fav-list" id="fav-list">
               <!-- dynamic items -->
@@ -470,28 +481,34 @@
         </div>
 
         <!-- Cart -->
-        <div class="panel" id="panel-cart" style="display:none">
-          <div class="grid" style="grid-template-columns:2fr 1fr">
-            <div class="card">
-              <h4>سبد خرید</h4>
-              <p class="muted">آیتم‌های انتخاب‌شده برای خرید</p>
+        <!-- Cart Panel -->
+<div class="panel" id="panel-cart" style="display:none">
+  <div class="grid" style="grid-template-columns:2fr 1fr; gap: 12px;">
+    
+    <!-- List of Cart Items -->
+    <div class="card">
+      <h4>سبد خرید</h4>
+      <p class="muted">آیتم‌های انتخاب‌شده برای خرید</p>
+      <div id="cart-list" style="margin-top:12px"></div>
+    </div>
 
-              <div id="cart-list" style="margin-top:12px"></div>
-
-            </div>
-
-            <div class="card">
-              <h4>جمع و نهایی‌سازی</h4>
-              <div style="margin-top:12px;display:flex;flex-direction:column;gap:12px">
-                <div style="display:flex;justify-content:space-between"><div class="small">مجموع</div><div id="cart-total">0 تومان</div></div>
-                <div style="display:flex;gap:8px;justify-content:flex-end">
-                  <button class="btn btn-ghost" id="clear-cart">پاک کردن</button>
-                  <button class="btn btn-accent" id="checkout">پرداخت</button>
-                </div>
-              </div>
-            </div>
-          </div>
+    <!-- Cart Summary -->
+    <div class="card">
+      <h4>جمع و نهایی‌سازی</h4>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;justify-content:space-between">
+          <div class="small">مجموع</div>
+          <div id="cart-total">0 تومان</div>
         </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end">
+          <button class="btn btn-ghost" id="clear-cart">پاک کردن</button>
+          <button class="btn btn-accent" id="checkout">پرداخت</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
       </section>
 
@@ -644,110 +661,117 @@
 
   </script>
   <script>
-  async function analyzeSkinImage(event) {
+  function openUserUrl(event) {
     event.preventDefault();
-    
+
     const urlInput = document.getElementById('userUrl');
-    const resultDiv = document.getElementById('analysisResult');
-    const button = event.target;
-    const originalButtonText = button.textContent;
-    
-    const url = urlInput.value.trim();
-    
-    if (!url) {
-        alert('لطفاً یک آدرس عکس معتبر وارد کنید.');
-        return;
-    }
-    
-    let finalUrl = url;
-    if (!url.startsWith('http://') && !url.startsWith('https://')) {
-        finalUrl = 'https://' + url;
-    }
-    
-    try {
-        button.textContent = 'در حال تحلیل...';
-        button.disabled = true;
-        resultDiv.style.display = 'none';
-        
-        console.log('🧪 تست endpoint...');
-        console.log('📋 CSRF Token:', getCookie('csrftoken'));
-        console.log('🔐 Session ID exists:', document.cookie.includes('sessionid'));
-        
-        // تست اولیه برای بررسی endpoint
-        const testResponse = await fetch('/analyze-skin/', {
-            method: 'GET',
-            headers: {
-                'X-CSRFToken': getCookie('csrftoken') || ''
-            }
-        });
-        
-        const testText = await testResponse.text();
-        console.log('🔍 تست GET response:', testText.substring(0, 200));
-        
-        // حالا درخواست POST اصلی
-        console.log('📤 ارسال درخواست POST...');
-        const response = await fetch('/analyze-skin/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken') || '',
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            body: JSON.stringify({
-                image_url: finalUrl
-            })
-        });
-        
-        const responseText = await response.text();
-        console.log('📥 پاسخ سرور:', responseText.substring(0, 500));
-        console.log('📊 وضعیت پاسخ:', response.status);
-        console.log('🔗 آدرس درخواست:', response.url);
-        
-        if (responseText.trim().startsWith('<!') || responseText.includes('<html')) {
-            console.error('❌ سرور صفحه HTML بازگردانده!');
-            if (responseText.includes('login') || responseText.includes('ورود')) {
-                throw new Error('احراز هویت ناموفق. لطفاً دوباره وارد شوید');
-            }
-            throw new Error('مشکل در سرور. لطفاً با پشتیبانی تماس بگیرید');
-        }
-        
-        let data;
-        try {
-            data = JSON.parse(responseText);
-        } catch (e) {
-            console.error('❌ خطای JSON:', e);
-            throw new Error('پاسخ سرور معتبر نیست');
-        }
-        
-        if (response.ok) {
-            resultDiv.innerHTML = `
-                <div style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; border: 1px solid #c3e6cb;">
-                    <strong>✅ تحلیل موفق!</strong><br>
-                    ${data.skin_concerns || 'هیچ موردی شناسایی نشد'}
-                </div>
-            `;
-            resultDiv.style.display = 'block';
-            urlInput.value = '';
-            
-        } else {
-            throw new Error(data.error || `خطای سرور: ${response.status}`);
-        }
-        
-    } catch (error) {
-        console.error('💥 خطای کامل:', error);
-        resultDiv.innerHTML = `
-            <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; border: 1px solid #f5c6cb;">
-                <strong>❌ خطا!</strong><br>
-                ${error.message}<br>
-                <small>لطفاً F12 بزنید و Console را بررسی کنید</small>
-            </div>
-        `;
-        resultDiv.style.display = 'block';
-    } finally {
-        button.textContent = originalButtonText;
-        button.disabled = false;
-    }
+    let url = urlInput.value.trim();
+
+    // اگر لینک با http یا https شروع نشده بود، https اضافه شود
+
+    // هدایت کاربر به لینک
+    window.open(url, '_blank');  // باز شدن در تب جدید
 }
+</script>
+<script>
+// تابع کمکی برای گرفتن CSRF Token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i=0; i<cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// نمایش و لود سبد خرید
+function refreshCart() {
+    fetch("{% url 'get_cart' %}")
+    .then(res => res.json())
+    .then(data => {
+        const list = document.getElementById('cart-list');
+        list.innerHTML = '';
+        let total = 0;
+
+        if(data.items.length === 0) {
+            list.innerHTML = '<p>سبد خرید خالی است</p>';
+        }
+
+        data.items.forEach(item => {
+            total += item.total;
+            const div = document.createElement('div');
+            div.className = 'cart-item';
+            div.style.display = 'flex';
+            div.style.justifyContent = 'space-between';
+            div.style.alignItems = 'center';
+            div.style.marginBottom = '8px';
+            div.innerHTML = `
+                <div>${item.name} x ${item.quantity}</div>
+                <div>${item.total} تومان</div>
+                <button class="remove-item" data-slug="${item.product_slug}">حذف</button>
+            `;
+            list.appendChild(div);
+        });
+
+        document.getElementById('cart-total').innerText = total + ' تومان';
+
+        // دکمه حذف هر محصول
+        document.querySelectorAll('.remove-item').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const slug = this.dataset.slug;
+                fetch("{% url 'remove_from_cart' %}", {
+                    method:'POST',
+                    headers:{
+                        'Content-Type':'application/json',
+                        'X-CSRFToken': getCookie('csrftoken'),
+                    },
+                    body: JSON.stringify({product_slug: slug})
+                }).then(()=>refreshCart());
+            });
+        });
+    })
+    .catch(err => console.error('خطای لود سبد خرید:', err));
+}
+
+// پرداخت سبد خرید
+document.getElementById('checkout').addEventListener('click', function() {
+    fetch("{% url 'checkout_cart' %}", {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify({})
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert(data.message);
+        if(data.status === 'success') refreshCart();
+    });
+});
+
+// پاک کردن کل سبد خرید
+document.getElementById('clear-cart').addEventListener('click', function() {
+    fetch("{% url 'remove_from_cart' %}", {
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRFToken': getCookie('csrftoken'),
+        },
+        body: JSON.stringify({}) // حذف همه آیتم‌ها
+    }).then(()=>refreshCart());
+});
+
+// فراخوانی سبد خرید هنگام لود صفحه
+document.addEventListener('DOMContentLoaded', () => {
+    refreshCart();
+});
 </script>
 </body>
 </html>

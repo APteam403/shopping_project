@@ -74,6 +74,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True, blank=True, max_length=255) 
     is_active = models.BooleanField(default=True)
     image_urls = models.URLField(unique=True)
+    stock = models.PositiveIntegerField(default=100)
 
     def save(self, *args, **kwargs):
         if not self.slug:

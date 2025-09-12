@@ -9,7 +9,10 @@ from Store.models import *
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 import json
+from .models import *
+from .models import CartItem
 from Quiz.models import QuizResults
+from Quiz.models import SkinCareRoutine
 
 def register_view(request):
     if request.method == 'POST':
@@ -67,6 +70,7 @@ def dashboard(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
 
     quiz_user = QuizResults.objects.filter(username_user=request.user.username)
+    routine_user = SkinCareRoutine.objects.filter(username_user=request.user.username)
     
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, instance=profile)
@@ -80,7 +84,8 @@ def dashboard(request):
     context = {
         'form': form,
         'profile': profile,
-        'quiz_user' : quiz_user
+        'quiz_user' : quiz_user,
+        'routine_user' : routine_user
     }
     return render(request, 'Users/dashboard.html', context)
 @login_required
@@ -171,3 +176,102 @@ def track_product_view(request):
 
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': f'خطای سرور: {str(e)}'}, status=500)
+    
+@login_required
+@require_POST
+def add_to_cart(request):
+    try:
+        data = json.loads(request.body)
+        product_slug = data.get('product_slug')
+        quantity = int(data.get('quantity', 1))
+
+        if not product_slug:
+            return JsonResponse({'status': 'error', 'message': 'اسلاگ محصول ارسال نشده است'}, status=400)
+
+        product = Product.objects.filter(slug=product_slug).first()
+        if not product:
+            return JsonResponse({'status': 'error', 'message': 'محصول پیدا نشد'}, status=404)
+
+        cart_item, created = CartItem.objects.get_or_create(user=request.user, product=product)
+        if not created:
+            cart_item.quantity += quantity
+        else:
+            cart_item.quantity = quantity
+        cart_item.save()
+
+        return JsonResponse({'status': 'success', 'message': f'{quantity} عدد از محصول به سبد خرید اضافه شد'})
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'خطای سرور: {str(e)}'}, status=500)
+@login_required
+def get_cart(request):
+    cart_items = CartItem.objects.filter(user=request.user).select_related('product')
+    data = []
+    total = 0
+    for item in cart_items:
+        data.append({
+            'product_slug': item.product.slug,
+            'name': item.product.name,
+            'price': float(item.product.price),
+            'quantity': item.quantity,
+            'total': float(item.total_price),
+        })
+        total += item.total_price
+    return JsonResponse({'items': data, 'total': total})
+
+@login_required
+@require_POST
+def remove_from_cart(request):
+    try:
+        data = json.loads(request.body)
+        product_id = data.get('product_id')
+
+        if not product_id:
+            return JsonResponse({'status': 'error', 'message': 'محصول انتخاب نشده است'}, status=400)
+
+        cart = request.session.get('cart', {})
+
+        if product_id in cart:
+            del cart[product_id]
+            request.session['cart'] = cart
+            return JsonResponse({'status': 'success', 'message': 'محصول از سبد خرید حذف شد'})
+        else:
+            return JsonResponse({'status': 'info', 'message': 'محصول در سبد خرید وجود ندارد'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+@login_required
+@require_POST
+def checkout_cart(request):
+    try:
+        cart_items = CartItem.objects.filter(user=request.user).select_related('product')
+        if not cart_items.exists():
+            return JsonResponse({'status': 'error', 'message': 'سبد خرید خالی است'}, status=400)
+
+        total = sum(item.total_price for item in cart_items)
+        profile = request.user.profile
+
+        
+        if profile.pocket < total:
+            return JsonResponse({'status': 'error', 'message': 'موجودی کافی نیست'}, status=400)
+
+       
+        for item in cart_items:
+            if item.quantity > item.product.stock:
+                return JsonResponse({
+                    'status': 'error',
+                    'message': f'موجودی محصول "{item.product.name}" کافی نیست'
+                }, status=400)
+            item.product.stock -= item.quantity
+            item.product.save()
+
+       
+        profile.pocket -= total
+        profile.save()
+
+        cart_items.delete()
+
+        return JsonResponse({'status': 'success', 'message': 'پرداخت با موفقیت انجام شد'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

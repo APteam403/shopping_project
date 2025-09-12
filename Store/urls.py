@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from . import views
 
 router = DefaultRouter()
-router.register('products', views.ProductViewSet, basename='product')
+# router.register('products', views.ProductViewSet, basename='product')
 router.register('brands', views.BrandViewSet)
 router.register('categories', views.CategoryViewSet)
 router.register('tags', views.TagViewSet)
@@ -13,7 +13,7 @@ router.register('ingredients', views.IngredientViewSet)
 
 urlpatterns = [
     path('search-test/', views.search_test_page, name='search_test'),
-    path('autocomplete/', views.ProductAutocompleteView.as_view(), name='product-autocomplete'),
+    # path('autocomplete/', views.ProductAutocompleteView.as_view(), name='product-autocomplete'),
     path('', views.index_page, name='index_page'),
     path('weblog/', views.weblog, name='weblog_page'),
     path('about-us/', views.about_us, name='aboutus_page'),

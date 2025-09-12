@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.validators import MinLengthValidator
+from django.conf import settings
+from Store.models import Product
 
 class Profile(models.Model):
     class SkinType(models.IntegerChoices):
@@ -138,3 +140,18 @@ class Profile(models.Model):
                 (today.month, today.day) < (self.birth_date.month, self.birth_date.day)
             )
         return None
+
+class CartItem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+    def __str__(self):
+        return f"{self.product.name} x {self.quantity}"
+
+    @property
+    def total_price(self):
+        return self.product.price * self.quantity
