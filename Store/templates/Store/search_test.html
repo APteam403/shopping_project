@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>صفحه جستجوی محصولات</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; margin: 24px; background:#fafafa; color:#222 }
+    .container { max-width:900px; margin:0 auto; }
+    h1 { margin-bottom:8px }
+    .search-bar { display:flex; gap:8px; margin-bottom:12px; position: relative; }
+    input[type="search"] { flex:1; padding:10px 12px; font-size:16px; border:1px solid #ccc; border-radius:6px; }
+    button { padding:10px 14px; border-radius:6px; border:none; background:#0066cc; color:white; cursor:pointer }
+    button:disabled { background:#9bbfea; cursor:not-allowed }
+    .meta { color:#666; margin-bottom:12px }
+    .sort-bar { margin-bottom:12px }
+    select { padding:8px; font-size:14px; border:1px solid #ccc; border-radius:6px; }
+    .results { display:grid; grid-template-columns:1fr; gap:12px; }
+    .card { background:white; border:1px solid #e4e4e4; padding:12px; border-radius:8px; display:flex; gap:12px; align-items:flex-start; cursor:pointer; transition:background 0.2s }
+    .card:hover { background:#f5f5f5 }
+    .card img { width:110px; height:110px; object-fit:cover; border-radius:6px; background:#eee }
+    .card .info { flex:1 }
+    .card .info h3 { margin:0 0 6px 0 }
+    .badges { margin-top:8px }
+    .badge { display:inline-block; padding:4px 8px; margin-right:6px; background:#f0f0f0; border-radius:999px; font-size:12px; color:#333 }
+    .error { color:#a94442; background:#fbeaea; padding:8px; border-radius:6px; border:1px solid #f1c0c0 }
+    .empty { color:#666; padding:8px }
+    footer { margin-top:18px; color:#666; font-size:13px }
+    #autocomplete-list {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      border-top: none;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 999;
+      border-radius: 0 0 6px 6px;
+    }
+    #autocomplete-list div {
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    #autocomplete-list div:hover {
+      background-color: #e9e9e9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>جستجوی محصولات فروشگاه پوستینو</h1>
+    <div class="search-bar">
+      <input id="searchInput" type="search" autocomplete="off" placeholder="Type at least 3 characters and press Enter or wait..." />
+      <button id="searchBtn">Search</button>
+      <div id="autocomplete-list"></div>
+    </div>
+    <div class="sort-bar">
+      <label for="sortSelect">مرتب شده بر اساس: </label>
+      <select id="sortSelect">
+        <option value="">مرتبط‌ترین</option>
+<option value="views">پربازدیدترین</option>
+<option value="rating_high">بالاترین امتیاز</option>
+<option value="rating_low">کمترین امتیاز</option>
+<option value="price_high">قیمت: زیاد به کم</option>
+<option value="price_low">قیمت: کم به زیاد</option>
+      </select>
+    </div>
+    <div class="meta">API: <code id="apiUrl"></code></div>
+    <div id="status"></div>
+    <div class="results" id="results"></div>
+  </div>
+
+  <script>
+    const API_BASE = "http://127.0.0.1:8000/store/products/";
+    const AUTOCOMPLETE_API = "http://127.0.0.1:8000/store/autocomplete/";
+    document.getElementById('apiUrl').textContent = API_BASE + "?q=...";
+
+    const input = document.getElementById('searchInput');
+    const btn = document.getElementById('searchBtn');
+    const sortSelect = document.getElementById('sortSelect');
+    const resultsEl = document.getElementById('results');
+    const statusEl = document.getElementById('status');
+    const autocompleteList = document.getElementById('autocomplete-list');
+
+    function debounce(fn, delay = 350) {
+      let t;
+      return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn(...args), delay);
+      };
+    }
+
+    function renderProduct(p) {
+      const img = p.image_urls || '';
+      const brand = (p.brand && (p.brand.name || p.brand)) || '';
+      const category = (p.category && (p.category.name || p.category)) || '';
+      const tags = p.tags || '';
+      const price = p.price ?? '';
+      const rating = p.rating ?? '';
+      const views = p.views_count ?? '0';
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card';
+      wrapper.dataset.productId = p.product_id; // Store product_id for click handling
+      wrapper.innerHTML = `
+        <img src="${escapeHtml(img)}" alt="${escapeHtml(p.name || '')}" onerror="this.style.opacity=.5;this.src='https://via.placeholder.com/110x110?text=No+Image'"/>
+        <div class="info">
+          <h3>${escapeHtml(p.name || '(no name)')}</h3>
+          <div><strong>Brand:</strong> ${escapeHtml(brand)} <strong style="margin-left:10px">Category:</strong> ${escapeHtml(category)}</div>
+          <div style="margin-top:6px">${escapeHtml(p.description ? (p.description.substring(0, 200) + (p.description.length > 200 ? '...' : '')) : '')}</div>
+          <div class="badges">
+            ${price ? `<span class="badge">Price: ${escapeHtml(price)}</span>` : ''}
+            ${rating ? `<span class="badge">Rating: ${escapeHtml(rating)}</span>` : ''}
+            ${views ? `<span class="badge">Views: ${escapeHtml(views)}</span>` : ''}
+            ${tags ? `<span class="badge">Tags: ${escapeHtml(Array.isArray(tags) ? tags.join(', ') : tags)}</span>` : ''}
+          </div>
+        </div>
+      `;
+      // Add click handler to increment views and redirect
+      wrapper.addEventListener('click', () => {
+        fetch(`${API_BASE}${p.product_id}/`, {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          credentials: 'include'
+        })
+          .then(res => {
+            if (res.ok) {
+              // Redirect to a product detail page (adjust URL as needed)
+              window.location.href = `/product/${p.product_id}/`; // Replace with your detail page URL
+            }
+          })
+          .catch(err => console.error('Error incrementing view:', err));
+      });
+      return wrapper;
+    }
+
+    function escapeHtml(s) {
+      if (s === null || s === undefined) return '';
+      return String(s)
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'",'&#039;');
+    }
+
+    async function doSearch(term, sort = '') {
+      resultsEl.innerHTML = '';
+      statusEl.innerHTML = '';
+      clearAutocomplete();
+      if (!term || term.length < 3) {
+        statusEl.innerHTML = '<div class="empty">Type at least 3 characters to search.</div>';
+        return;
+      }
+
+      statusEl.innerHTML = 'Searching...';
+      btn.disabled = true;
+
+      const url = new URL(API_BASE);
+      url.searchParams.set('q', term);
+      if (sort) {
+        url.searchParams.set('sort', sort);
+      }
+
+      try {
+        const res = await fetch(url.toString(), {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          credentials: 'include'
+        });
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(`HTTP ${res.status}: ${text.substring(0,200)}`);
+        }
+
+        const data = await res.json();
+
+        const list = Array.isArray(data) ? data : (Array.isArray(data.results) ? data.results : []);
+        if (list.length === 0) {
+          statusEl.innerHTML = '<div class="empty">No results.</div>';
+        } else {
+          statusEl.innerHTML = `<div class="empty">Found ${list.length} item(s).</div>`;
+        }
+
+        for (const p of list) {
+          resultsEl.appendChild(renderProduct(p));
+        }
+
+      } catch (err) {
+        console.error(err);
+        statusEl.innerHTML = `<div class="error">Error: ${escapeHtml(err.message)}</div>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function fetchAutocomplete(term) {
+      autocompleteList.innerHTML = '';
+      if (!term || term.length < 2) {
+        return;
+      }
+
+      const url = new URL(AUTOCOMPLETE_API);
+      url.searchParams.set('q', term);
+
+      try {
+        const res = await fetch(url.toString(), {
+          method: 'GET',
+          headers: { 'Accept': 'application/json' },
+          credentials: 'include'
+        });
+
+        if (!res.ok) {
+          return;
+        }
+
+        const suggestions = await res.json();
+
+        if (suggestions.length === 0) {
+          return;
+        }
+
+        for (const suggestion of suggestions) {
+          const div = document.createElement('div');
+          div.textContent = suggestion;
+          div.addEventListener('click', () => {
+            input.value = suggestion;
+            clearAutocomplete();
+            doSearch(suggestion, sortSelect.value);
+          });
+          autocompleteList.appendChild(div);
+        }
+
+      } catch (e) {
+        // ignore errors silently
+      }
+    }
+
+    function clearAutocomplete() {
+      autocompleteList.innerHTML = '';
+    }
+
+    const debouncedSearch = debounce((ev) => {
+      const term = ev.target.value.trim();
+      fetchAutocomplete(term);
+    }, 300);
+
+    input.addEventListener('input', debouncedSearch);
+
+    input.addEventListener('keydown', (ev) => {
+      if (ev.key === 'Enter') {
+        clearAutocomplete();
+        doSearch(input.value.trim(), sortSelect.value);
+      }
+    });
+
+    btn.addEventListener('click', () => {
+      clearAutocomplete();
+      doSearch(input.value.trim(), sortSelect.value);
+    });
+
+    sortSelect.addEventListener('change', () => {
+      const term = input.value.trim();
+      if (term.length >= 3) {
+        doSearch(term, sortSelect.value);
+      }
+    });
+
+    (function runFromQueryString() {
+      const params = new URLSearchParams(location.search);
+      const q = params.get('q');
+      const sort = params.get('sort') || '';
+      if (q) {
+        input.value = q;
+        sortSelect.value = sort;
+        doSearch(q, sort);
+      }
+    })();
+  </script>
+</body>
+</html>

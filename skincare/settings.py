@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django_filters',
     'Store',
     'django_elasticsearch_dsl',
-    'django_elasticsearch_dsl_drf'
+    'django_elasticsearch_dsl_drf',
     'Users',
     'Quiz',
 ]
@@ -143,6 +143,6 @@ REST_FRAMEWORK = {
 
 ELASTICSEARCH_DSL = {
     'default': {
-        'hosts': 'http://localhost:9200'  # جای آدرس elasticsearch خودت رو بذار
+        'hosts': 'http://localhost:9200'
     },
 }

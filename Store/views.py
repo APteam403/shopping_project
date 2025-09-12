@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.db import models
-from django.db.models import F, Case, When
+from django.db.models import F, Case, When, Count, Q, F, FloatField, ExpressionWrapper, Value
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
@@ -10,9 +10,9 @@ from .models import *
 from .serializers import *
 from .search_documents import ProductDocument
 from django.shortcuts import get_object_or_404
+from django.db.models.functions import Abs
+from django.db.models import Max
 
-def search_test_page(request):
-    return render(request, 'search_test.html')
 class ProductViewSet(ModelViewSet):
     serializer_class = ProductSerializer
     queryset = Product.objects.select_related('brand', 'category').prefetch_related('tags', 'ingredients', 'concerns_targeted', 'skin_type')
@@ -223,7 +223,7 @@ class ConcernViewSet(ModelViewSet):
     
 class SkinTypeViewSet(ModelViewSet):
     queryset = SkinType.objects.all()
-    serializer_class = SkinTypeSeria
+    serializer_class = SkinTypeSerializer
     
 class IngredientViewSet(ModelViewSet):
     queryset = Ingredients.objects.all()
@@ -235,8 +235,114 @@ def index_page(response):
 
 def detail_page(request, slug):
     product = get_object_or_404(Product, slug=slug)
-    products = Product.objects.all()
-    return render(request, 'Store/detail.html', {'product': product, 'products': products})
 
-def category_page(request):
-    return render(request, 'Store/category.html')
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        preferences = profile.preferences
+        wishlist = profile.wishlist
+        viewed_products = profile.views_product
+    else:
+        preferences = []
+        wishlist = []
+        viewed_products = []
+
+    max_views = cache.get('max_views')
+    if max_views is None:
+        max_views = Product.objects.aggregate(max_views=Max('views_count'))['max_views'] or 1
+        cache.set('max_views', max_views, 300)
+    
+    views_score = ExpressionWrapper(
+        (F('views_count') / max_views) * 5,
+        output_field=FloatField()
+    )
+    price_diff = Abs(F('price') - product.price)
+    max_score_price = 8
+    max_price_diff = 1000
+    price_score = ExpressionWrapper(
+        Value(max_score_price) * (1 - (price_diff / max_price_diff)),
+        output_field=FloatField()
+    )
+    products = Product.objects.exclude(pk=product.pk).annotate(
+    score=(
+        Case(
+            When(brand=product.brand, then=Value(8)),
+            default=Value(0),
+            output_field=FloatField()
+        ) +
+        Case(
+            When(category=product.category, then=Value(10)),
+            default=Value(0),
+            output_field=FloatField()
+        ) +
+        Count('skin_type', filter=Q(skin_type__in=product.skin_type.all())) * 6 +
+        Count('tags', filter=Q(tags__in=product.tags.all())) * 6 +
+        price_score +
+        views_score
+        )
+    ).select_related('brand', 'category').prefetch_related('tags', 'skin_type')
+
+    views_categories = set(p.category for p in Product.objects.filter(slug__in=set(viewed_products)))
+    views_brand = set(p.category for p in Product.objects.filter(slug__in=set(viewed_products)))
+
+    wishlist_categories = set(p.category for p in Product.objects.filter(slug__in=set(wishlist)))
+    wishlist_brands = set(p.brand for p in Product.objects.filter(slug__in=set(wishlist)))
+
+    preferences_categories = set(p.category for p in Product.objects.filter(slug__in=set(preferences)))
+    preferences_brands = set(p.brand for p in Product.objects.filter(slug__in=set(preferences)))
+
+    for p in products:
+        if p.category in wishlist_categories:
+            p.score += 5
+        if p.brand in wishlist_brands:
+            p.score += 4
+        if p.category in preferences_categories:
+            p.score += 3   
+        if p.brand in preferences_brands:
+            p.score += 3
+        if p.category in views_categories:
+            p.score += 1
+        if p.brand in views_brand:
+            p.score += 1
+
+    TOP_N = 20
+    top_by_score = products.order_by('-score')[:TOP_N]
+    recommended = sorted(
+        top_by_score,
+        key=lambda product: (product.views_count, getattr(product, 'score', 0)),
+        reverse=True
+    )[:8]
+
+    context = {
+        'product': product,
+        'products': products,
+        'product_recommended': recommended
+    }
+    return render(request, 'Store/detail.html', context)
+
+def category_page(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    products = Product.objects.filter(category=category)
+    
+    context = {
+        'category': category,
+        'products': products
+    }
+    
+    return render(request, 'Store/category.html', context)
+
+def views_hot_page(request):
+    products = Product.objects.all()
+    products2 = products.order_by('-views_count')
+    context = {
+        'all_views_hot' : products2
+    }
+    return render(request, 'Store/views_hot.html', context)
+
+def search_test_page(request):
+    return render(request, 'Store/search_test.html')
+
+def weblog(request):
+    return render(request, 'Store/weblog.html')
+
+def about_us(request):
+    return render(request, 'Store/about-us.html')

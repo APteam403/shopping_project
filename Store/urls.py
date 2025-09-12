@@ -11,11 +11,14 @@ router.register('concerns', views.ConcernViewSet)
 router.register('skintypes', views.SkinTypeViewSet)
 router.register('ingredients', views.IngredientViewSet)
 
-urlpatterns = router.urls + [
+urlpatterns = [
     path('search-test/', views.search_test_page, name='search_test'),
     path('autocomplete/', views.ProductAutocompleteView.as_view(), name='product-autocomplete'),
     path('', views.index_page, name='index_page'),
+    path('weblog/', views.weblog, name='weblog_page'),
+    path('about-us/', views.about_us, name='aboutus_page'),
     path('detail/<slug:slug>/', views.detail_page, name='detail_page'),
-    path('category/', views.category_page, name='category_page'),
+    path('category/<slug:slug>/', views.category_page, name='category_page'),
+    path('views_hot/', views.views_hot_page, name='views_hot_page'),
     path('api/', include(router.urls)),
 ]

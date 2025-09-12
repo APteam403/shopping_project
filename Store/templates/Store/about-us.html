@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درباره ما - فروشگاه مراقبت پوست</title>
+    
+    <!-- فونت ایران سنس -->
+    <link rel="stylesheet" href="/static/fonts/font-face.css">
+    
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="/static/css/bootstrap.rtl.min.css">
+    
+    <!-- استایل اختصاصی -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- Font Awesome (از CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css (از CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        /* استایل های خاص صفحه درباره ما */
+        .about-page {
+            padding: 40px 0;
+        }
+        
+        .about-header {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            padding: 80px 0 60px;
+            color: white;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .about-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #444;
+            margin-bottom: 40px;
+        }
+        
+        .about-content h2 {
+            color: #6d5197;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        
+        .about-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .about-img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .values-section {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+            margin: 40px 0;
+        }
+        
+        .value-card {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s;
+            height: 100%;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            color: white;
+            font-size: 1.8rem;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+        }
+        
+        .value-title {
+            color: #6d5197;
+            margin-bottom: 15px;
+        }
+        
+        .team-section {
+            margin: 60px 0;
+        }
+        
+        .team-card {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .team-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 5px solid #f8f9fa;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .team-name {
+            color: #6d5197;
+            margin-bottom: 5px;
+        }
+        
+        .team-role {
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .team-social {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .team-social a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            color: #6d5197;
+            transition: all 0.3s;
+        }
+        
+        .team-social a:hover {
+            background-color: #6d5197;
+            color: white;
+        }
+        
+        .contact-info {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 40px 0;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            color: white;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            margin-left: 15px;
+        }
+        
+        .contact-text {
+            flex: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .about-title {
+                font-size: 1.8rem;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-icon {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر اصلی -->
+    <header class="main-header py-3 animate-fade-in">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- لوگو -->
+                <div class="col-lg-2 col-md-3 col-6">
+                    <a href="#" class="logo">
+                        <span>مراقبت </span>پوست
+                    </a>
+                </div>
+                
+                <!-- جستجو -->
+                <div class="col-lg-7 col-md-6 d-none d-md-block">
+                    <div class="search-box d-flex">
+                        <input type="text" class="search-input" placeholder="برای استفاده از موتور جستجو روی دکمه ذره بین کلیک کنید ...">
+                        <button class="search-btn" onclick="window.location.href='search-test'">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-6">
+                    <div class="user-actions d-flex justify-content-end">
+                        <a href="#" class="user-btn btn btn-outline-secondary me-2 position-relative">
+                            <i class="fas fa-user"></i>
+                            <span class="user-tooltip">حساب کاربری</span>
+                        </a>
+                        <a href="#" class="cart-btn btn btn-outline-secondary position-relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-tooltip">سبد خرید</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- جستجو برای موبایل -->
+                <div class="col-12 d-md-none mt-3">
+                    <div class="search-box d-flex">
+                        <input type="text" class="search-input" placeholder="جستجو...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- منو اصلی -->
+    <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-white"><i class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> صفحه اصلی</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bars"></i> همه دسته‌بندی‌ها
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">مرطوب کننده</a></li>
+                            <li><a class="dropdown-item" href="#">ضد آفتاب</a></li>
+                            <li><a class="dropdown-item" href="#">پاک کننده</a></li>
+                            <li><a class="dropdown-item" href="#">سرم‌ها</a></li>
+                            <li><a class="dropdown-item" href="#">دور چشم</a></li>
+                            <li><a class="dropdown-item" href="#">ماسک صورت</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-fire"></i> پرفروش‌ترین‌ها</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-percentage"></i> پربازدیدترین ها</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-id-card"></i> کوئیز</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-medal"></i> درباره ما</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-person"></i> ثبت نام</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- هدر صفحه درباره ما -->
+    <section class="about-header animate-fade-in">
+        <div class="container">
+            <h1 class="about-title animate-slide-up">درباره ما</h1>
+            <p class="lead animate-slide-up" style="animation-delay: 0.2s;">تیم متخصص مراقبت پوست با هدف ارائه بهترین محصولات و خدمات به شما عزیزان</p>
+        </div>
+    </section>
+    
+    <!-- محتوای اصلی درباره ما -->
+    <section class="about-page">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="about-content">
+                        <h2>داستان ما</h2>
+                        <p>تیم توسعه دهنده این وب سایت از دانشجویان ترم دوم مهندسی کامپیوتر دانشگاه علم و صنعت می باشند.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- بخش ارزش‌ها -->
+            <section class="values-section">
+                <div class="container">
+                    <h2 class="text-center mb-5">ارزش‌های ما</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="value-card animate-slide-up">
+                                <div class="value-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <h3 class="value-title">کیفیت بالا</h3>
+                                <p>تمام محصولات ما از برندهای معتبر و با گارانتی اصالت کالا ارائه می‌شوند تا خیال شما از بابت کیفیت آسوده باشد.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="value-card animate-slide-up" style="animation-delay: 0.1s;">
+                                <div class="value-icon">
+                                    <i class="fas fa-user-md"></i>
+                                </div>
+                                <h3 class="value-title">مشاوره تخصصی</h3>
+                                <p>تیم متخصص ما آماده ارائه مشاوره رایگان برای کمک به شما در انتخاب بهترین محصولات متناسب با پوست شماست.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="value-card animate-slide-up" style="animation-delay: 0.2s;">
+                                <div class="value-icon">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <h3 class="value-title">تحویل سریع</h3>
+                                <p>ارسال سریع به تمام نقاط ایران با بسته‌بندی مناسب و مطمئن تا محصولات در بهترین شرایط به دست شما برسند.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+        </section>
+             <!-- فوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">درباره ما</h5>
+                    <p>فروشگاه اینترنتی مراقبت پوست با هدف ارائه بهترین محصولات مراقبتی و آرایشی با کیفیت بالا تأسیس شده است. ما سلامت و زیبایی پوست شما را تضمین می‌کنیم.</p>
+                    <p>شما لاگین نکرده‌اید.</p>
+                    <a href="#">ورود</a>
+                    <div class="social-links mt-4">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">خدمات مشتریان</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> راهنمای خرید</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> پرسش‌های متداول</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> شرایط بازگرداندن کالا</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> حریم خصوصی</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> تماس با ما</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">راهنمای مراقبت پوست</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> تشخیص نوع پوست</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> روتین مراقبت پوست</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> محصولات مناسب سنین مختلف</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> مقابله با مشکلات پوستی</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> نکات تخصصی آرایشی</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">با ما در تماس باشید</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><i class="fas fa-map-marker-alt ms-2"></i>  تهران - دانشگاه علم و صنعت ایران</li>
+                        <li><i class="fas fa-phone ms-2"></i> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><i class="fas fa-envelope ms-2"></i> APTeam@gmail.com</li>
+                    </ul>
+                    
+                    <div class="mt-4">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='80' viewBox='0 0 200 80'%3E%3Crect width='200' height='80' fill='%233a4750'/%3E%3Ctext x='50%25' y='50%25' font-size='16' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3Eنمادهای اعتماد%3C/text%3E%3C/svg%3E" 
+                             alt="نمادهای اعتماد" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p class="m-0">تمامی حقوق این وبسایت متعلق به فروشگاه اینترنتی مراقبت پوست می‌باشد. © ۱۴۰۴</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- اسکریپت‌ها -->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/swiper-bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

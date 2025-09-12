@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>راهنمای کامل مراقبت پوست در تابستان - وبلاگ مراقبت پوست</title>
+    
+    <!-- فونت ایران سنس -->
+    <link rel="stylesheet" href="/static/fonts/font-face.css">
+    
+    <!-- Bootstrap 5 RTL -->
+    <link rel="stylesheet" href="/static/css/bootstrap.rtl.min.css">
+    
+    <!-- Swiper JS -->
+    <link rel="stylesheet" href="/static/css/swiper-bundle.min.css">
+    
+    <!-- استایل اختصاصی -->
+    <link rel="stylesheet" href="/static/css/style.css">
+    
+    <!-- Font Awesome (از CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Animate.css (از CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <style>
+        /* استایل های خاص صفحه جزئیات وبلاگ */
+        .blog-detail-page {
+            padding: 40px 0;
+        }
+        
+        .blog-detail-header {
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            padding: 80px 0 60px;
+            color: white;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        
+        .blog-detail-title {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        
+        .blog-detail-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .blog-meta-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+        
+        .blog-meta-item i {
+            margin-left: 8px;
+        }
+        
+        .author-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-left: 15px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .blog-detail-content {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            color: #444;
+        }
+        
+        .blog-detail-content h2 {
+            color: #6d5197;
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+        
+        .blog-detail-content h3 {
+            color: #8a6dae;
+            margin: 25px 0 15px;
+        }
+        
+        .blog-detail-content p {
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+        
+        .blog-detail-img {
+            width: 100%;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-highlight {
+            background-color: #f8f9fa;
+            border-right: 4px solid #a18cd1;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+        
+        .blog-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        
+        .blog-tag {
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .blog-tag:hover {
+            background-color: #a18cd1;
+            color: white;
+        }
+        
+        .social-share {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .social-share a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            color: #6d5197;
+            transition: all 0.3s;
+        }
+        
+        .social-share a:hover {
+            background-color: #6d5197;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        .blog-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 50px 0 30px;
+            padding: 20px 0;
+            border-top: 1px solid #e9ecef;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            color: #495057;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: #6d5197;
+            color: white;
+        }
+        
+        .nav-btn i {
+            margin: 0 8px;
+        }
+        
+        .related-posts {
+            margin: 50px 0;
+        }
+        
+        .related-title {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+            color: #6d5197;
+        }
+        
+        .related-post-card {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            height: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .related-post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .related-post-img {
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .related-post-content {
+            padding: 20px;
+        }
+        
+        .related-post-title {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #343a40;
+            line-height: 1.4;
+        }
+        
+        .related-post-date {
+            font-size: 0.85rem;
+            color: #6c757d;
+        }
+        
+        .comment-section {
+            margin: 50px 0;
+        }
+        
+        .comment-title {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e9ecef;
+            color: #6d5197;
+        }
+        
+        .comment-form {
+            background-color: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .comment-list {
+            margin-top: 30px;
+        }
+        
+        .comment-item {
+            display: flex;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .comment-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-left: 20px;
+            object-fit: cover;
+        }
+        
+        .comment-content {
+            flex: 1;
+        }
+        
+        .comment-author {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #343a40;
+        }
+        
+        .comment-date {
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        .comment-text {
+            color: #495057;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .blog-detail-title {
+                font-size: 1.8rem;
+            }
+            
+            .blog-detail-meta {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .blog-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .comment-item {
+                flex-direction: column;
+            }
+            
+            .comment-avatar {
+                margin-left: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر اصلی -->
+    <header class="main-header py-3 animate-fade-in">
+        <div class="container">
+            <div class="row align-items-center">
+                <!-- لوگو -->
+                <div class="col-lg-2 col-md-3 col-6">
+                    <a href="#" class="logo">
+                        <span>مراقبت </span>پوست
+                    </a>
+                </div>
+                
+                <!-- جستجو -->
+                <div class="col-lg-7 col-md-6 d-none d-md-block">
+                    <div class="search-box d-flex">
+                        <input type="text" class="search-input" placeholder="برای استفاده از موتور جستجو روی دکمه ذره بین کلیک کنید ...">
+                        <button class="search-btn" onclick="window.location.href='search-test'">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-6">
+                    <div class="user-actions d-flex justify-content-end">
+                        <a href="#" class="user-btn btn btn-outline-secondary me-2 position-relative">
+                            <i class="fas fa-user"></i>
+                            <span class="user-tooltip">حساب کاربری</span>
+                        </a>
+                        <a href="#" class="cart-btn btn btn-outline-secondary position-relative">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-tooltip">سبد خرید</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- جستجو برای موبایل -->
+                <div class="col-12 d-md-none mt-3">
+                    <div class="search-box d-flex">
+                        <input type="text" class="search-input" placeholder="جستجو...">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- منو اصلی -->
+    <nav class="navbar navbar-expand-lg main-navbar">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon text-white"><i class="fas fa-bars"></i></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home"></i> صفحه اصلی</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bars"></i> همه دسته‌بندی‌ها
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">مرطوب کننده</a></li>
+                            <li><a class="dropdown-item" href="#">ضد آفتاب</a></li>
+                            <li><a class="dropdown-item" href="#">پاک کننده</a></li>
+                            <li><a class="dropdown-item" href="#">سرم‌ها</a></li>
+                            <li><a class="dropdown-item" href="#">دور چشم</a></li>
+                            <li><a class="dropdown-item" href="#">ماسک صورت</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-fire"></i> پرفروش‌ترین‌ها</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-percentage"></i> پربازدیدترین ها</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-id-card"></i> کوئیز</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-medal"></i> درباره ما</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-person"></i> ثبت نام</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- هدر صفحه جزئیات وبلاگ -->
+    <section class="blog-detail-header animate-fade-in">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h1 class="blog-detail-title animate-slide-up">راهنمای کامل مراقبت پوست در تابستان</h1>
+                    
+                    <div class="blog-detail-meta animate-slide-up" style="animation-delay: 0.1s;">
+                        <div class="blog-meta-item">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>20 شهریور 1404</span>
+                        </div>
+                        <div class="blog-meta-item">
+                            <i class="far fa-clock"></i>
+                            <span>زمان مطالعه: ۸ دقیقه</span>
+                        </div>
+                        <div class="blog-meta-item">
+                            <i class="far fa-eye"></i>
+                            <span>3 بازدید</span>
+                        </div>
+                    </div>
+                    
+                    <div class="author-info animate-slide-up" style="animation-delay: 0.2s;">
+                        <img src="" class="author-img">
+                        <div>
+                            <div>نویسنده: <strong>تیم نویسندگان ای پی</strong></div>
+                            <div>متخصص پوست و مو</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- محتوای اصلی مقاله -->
+    <section class="blog-detail-page">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <article class="blog-detail-content">
+                        <img src="https://dkstatics-public.digikala.com/digikala-adservice-banners/999a99d0a8bbbc65b34fe9da8e14fa741c8efd14_1753273410.jpg?x-oss-process=image/quality,q_95/format,webp" 
+                             alt="مراقبت پوست در تابستان" class="blog-detail-img">
+                        
+                        <p>تابستان فصل آفتاب، دریا و تفریح است، اما برای پوست ما می‌تواند چالش‌برانگیز باشد. گرمای شدید، نور خورشید و رطوبت بالا می‌توانند باعث ایجاد مشکلات مختلف پوستی شوند. در این مقاله قصد داریم راهنمای کاملی برای مراقبت از پوست در فصل تابستان ارائه دهیم.</p>
+                        
+                        <div class="blog-highlight">
+                            <h4>نکته کلیدی:</h4>
+                            <p>استفاده از ضد آفتاب با SPF مناسب مهمترین قدم در مراقبت از پوست در تابستان است. حتی در روزهای ابری نیز ۸۰٪ اشعه ماوراء بنفش خورشید از ابرها عبور می‌کند.</p>
+                        </div>
+                        
+                        <h2>تأثیر تابستان بر انواع پوست</h2>
+                        <p>تابستان بر هر نوع پوستی تأثیر متفاوتی می‌گذارد. پوست‌های چرب ممکن است چرب‌تر شوند، در حالی که پوست‌های خشک ممکن است در اثر تعریق و گرمای زیاد دچار حساسیت بیشتری شوند.</p>
+                        
+                        <h3>برای پوست چرب</h3>
+                        <p>در تابستان، پوست‌های چرب معمولاً چرب‌تر می‌شوند و احتمال بروز آکنه افزایش می‌یابد. استفاده از پاک‌کننده‌های ملایم و بدون چربی و محصولات فاقد روغن (oil-free) توصیه می‌شود.</p>
+                        
+                        <h3>برای پوست خشک</h3>
+                        <p>گرمای تابستان و تعریق می‌تواند پوست خشک را تحریک‌پذیرتر کند. استفاده از مرطوب‌کننده‌های قوی‌تر و نوشیدن آب کافی بسیار مهم است.</p>
+                        
+                        <img src="https://dkstatics-public.digikala.com/digikala-adservice-banners/9cfe03b7d09bb2e39380a54d211292b40ebd86aa_1753167204.jpg?x-oss-process=image/quality,q_95/format,webp" 
+                             alt="انواع پوست" class="blog-detail-img">
+                        
+                        <h2>روتین مراقبت پوست در تابستان</h2>
+                        <p>با تغییر فصل، روتین مراقبت از پوست نیز باید تغییر کند. در ادامه یک روتین ساده و مؤثر برای تابستان ارائه شده است:</p>
+                        
+                        <h3>صبح‌ها:</h3>
+                        <ul>
+                            <li>پاک کردن صورت با یک پاک‌کننده ملایم</li>
+                            <li>استفاده از تونر بدون الکل</li>
+                            <li>مرطوب‌کننده سبک و فاقد چربی</li>
+                            <li>ضد آفتاب با SPF حداقل ۳۰</li>
+                        </ul>
+                        
+                        <h3>عصرها:</h3>
+                        <ul>
+                            <li>پاک کردن آرایش و آلودگی‌ها با میسلار واتر یا پاک‌کننده ملایم</li>
+                            <li>شستشو با پاک‌کننده مناسب نوع پوست</li>
+                            <li>استفاده از سرم آنتی‌اکسیدان (مانند ویتامین C)</li>
+                            <li>مرطوب‌کننده سبک</li>
+                        </ul>
+                        
+                        <h2>محصولات پیشنهادی برای تابستان</h2>
+                        <p>در فصل تابستان بهتر است از محصولات سبک‌تر و فاقد چربی استفاده کنید. برخی از محصولات پیشنهادی شامل:</p>
+                        
+                        <ul>
+                            <li>ضد آفتاب‌های معدنی با SPF بالا</li>
+                            <li>مرطوب‌کننده‌های ژلی یا آب‌پایه</li>
+                            <li>سرم ویتامین C برای محافظت در برابر آسیب‌های محیطی</li>
+                            <li>ماسک‌های صورت تسکین‌دهنده و خنک‌کننده</li>
+                        </ul>
+                        
+                        <div class="blog-tags">
+                            <a href="#" class="blog-tag">پوست چرب</a>
+                            <a href="#" class="blog-tag">ضد آفتاب</a>
+                            <a href="#" class="blog-tag">مرطوب کننده</a>
+                            <a href="#" class="blog-tag">تابستان</a>
+                            <a href="#" class="blog-tag">مراقبت پوست</a>
+                        </div>
+                        
+                    </article>
+                    
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <!-- فوتر -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">درباره ما</h5>
+                    <p>فروشگاه اینترنتی مراقبت پوست با هدف ارائه بهترین محصولات مراقبتی و آرایشی با کیفیت بالا تأسیس شده است. ما سلامت و زیبایی پوست شما را تضمین می‌کنیم.</p>
+                    <p>شما لاگین نکرده‌اید.</p>
+                    <a href="#">ورود</a>
+                    <div class="social-links mt-4">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">خدمات مشتریان</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> راهنمای خرید</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> پرسش‌های متداول</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> شرایط بازگرداندن کالا</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> حریم خصوصی</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> تماس با ما</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">راهنمای مراقبت پوست</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> تشخیص نوع پوست</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> روتین مراقبت پوست</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> محصولات مناسب سنین مختلف</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> مقابله با مشکلات پوستی</a></li>
+                        <li><a href="#"><i class="fas fa-angle-left ms-2"></i> نکات تخصصی آرایشی</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-title">با ما در تماس باشید</h5>
+                    <ul class="footer-links list-unstyled">
+                        <li><i class="fas fa-map-marker-alt ms-2"></i>  تهران - دانشگاه علم و صنعت ایران</li>
+                        <li><i class="fas fa-phone ms-2"></i> ۰۲۱-۱۲۳۴۵۶۷۸</li>
+                        <li><i class="fas fa-envelope ms-2"></i> APTeam@gmail.com</li>
+                    </ul>
+                    
+                    <div class="mt-4">
+                        <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='80' viewBox='0 0 200 80'%3E%3Crect width='200' height='80' fill='%233a4750'/%3E%3Ctext x='50%25' y='50%25' font-size='16' fill='%23ffffff' text-anchor='middle' dominant-baseline='middle'%3Eنمادهای اعتماد%3C/text%3E%3C/svg%3E" 
+                             alt="نمادهای اعتماد" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p class="m-0">تمامی حقوق این وبسایت متعلق به فروشگاه اینترنتی مراقبت پوست می‌باشد. © ۱۴۰۴</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- اسکریپت‌ها -->
+    <script src="/static/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/swiper-bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

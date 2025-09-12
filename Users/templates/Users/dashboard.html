@@ -26,6 +26,21 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       padding:28px;
+      /* اضافه کردن این خط برای رفع مشکل پس‌زمینه */
+      background-attachment: fixed;
+      min-height: 100vh;
+    }
+
+    /* ایجاد المان پس‌زمینه برای کل صفحه */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg,#050608 0%, #071018 60%);
+      z-index: -1;
     }
 
     /* Layout */
@@ -39,43 +54,47 @@
     }
     .fav-list1 {
         font-family: 'Vazirmatn', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-        max-width: 800px;
-        margin: 20px auto;
+        max-width: 100%;
+        margin: 20px 0;
         padding: 0;
     }
 
     .fav-list1 .quiz-card {
-        background-color: #80a6ab;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 20px;
+        background: linear-gradient(180deg, var(--card), rgba(10,14,18,0.6));
+        border-radius: var(--radius);
+        box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+        padding: 18px;
         margin-bottom: 20px;
-        border-left: 5px solid #6c5ce7;
+        border: 1px solid rgba(255,255,255,0.02);
+        border-left: 4px solid var(--accent);
     }
 
     .fav-list1 .quiz-card h3 {
-        color: #2d3436;
+        color: #fff;
         margin-top: 0;
-        border-bottom: 1px solid #eee;
-        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        padding-bottom: 12px;
+        font-size: 18px;
     }
 
     .fav-list1 .quiz-card p {
-        margin: 8px 0;
-        color: #636e72;
+        margin: 10px 0;
+        color: var(--muted);
         font-size: 14px;
     }
 
     .fav-list1 .quiz-card p strong {
-        color: #2d3436;
+        color: #e6eef3;
         min-width: 150px;
         display: inline-block;
     }
 
     .fav-list1 .quiz-card .highlight {
-        background-color: #eae7ff;
-        padding: 2px 5px;
-        border-radius: 3px;
+        background-color: rgba(22, 199, 154, 0.15);
+        padding: 3px 8px;
+        border-radius: 4px;
+        color: var(--accent);
+        font-weight: 600;
     }
 
     @media (max-width: 768px) {
@@ -203,7 +222,6 @@
       <nav>
         <div class="nav-item active" data-panel="profile">👤 تکمیل اطلاعات</div>
         <div class="nav-item" data-panel="favorites">❤️ مورد پسندها</div>
-        <div class="nav-item" data-panel="orders">📦 سوابق خرید</div>
         <div class="nav-item" data-panel="wallet">💳 کیف پول</div>
         <div class="nav-item" data-panel="wishlist">💙 علاقه مندی ها</div>
         <div class="nav-item" data-panel="quiz">📊 نتایج کوئیز</div>
@@ -356,7 +374,17 @@
         <p><strong>میزان تماس با آفتاب:</strong> {{ i.sun_exposure }}</p>
         <p><strong>محصول مورد علاقه:</strong> <span class="highlight">{{ i.favorite_product_type }}</span></p>
         <p><strong>حساسیت‌ها:</strong> {{ i.if_allergic|default:"-" }}</p>
+
+    <div style="margin-top: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+    <h4 style="margin-top: 0; color: #2c3e50;">ارسال لینک عکس</h4>
+    <div>
+        <input type="url" id="userUrl" style="width: 100%; padding: 12px; border: 1px solid #000000; border-radius: 4px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; color: black;" placeholder="https://example.com/image.jpg" required>
+        <button onclick="analyzeSkinImage(event)" style="background-color: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">ارسال لینک</button>
     </div>
+    <div id="analysisResult" style="margin-top: 15px; display: none;"></div>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">با کلیک روی دکمه ارسال لینک میتوانید به ما در ساختن روتین پوستی بهتر کمک کنید.</p>
+</div>
+</div>
     {% empty %}
     <div class="quiz-card" style="text-align: center; color: #636e72;">
         هیچ نتیجه‌ای یافت نشد!
@@ -615,5 +643,111 @@
     document.addEventListener('keydown',(e)=>{ if(e.key==='Escape') qs('#logout-modal').style.display='none'; });
 
   </script>
+  <script>
+  async function analyzeSkinImage(event) {
+    event.preventDefault();
+    
+    const urlInput = document.getElementById('userUrl');
+    const resultDiv = document.getElementById('analysisResult');
+    const button = event.target;
+    const originalButtonText = button.textContent;
+    
+    const url = urlInput.value.trim();
+    
+    if (!url) {
+        alert('لطفاً یک آدرس عکس معتبر وارد کنید.');
+        return;
+    }
+    
+    let finalUrl = url;
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+        finalUrl = 'https://' + url;
+    }
+    
+    try {
+        button.textContent = 'در حال تحلیل...';
+        button.disabled = true;
+        resultDiv.style.display = 'none';
+        
+        console.log('🧪 تست endpoint...');
+        console.log('📋 CSRF Token:', getCookie('csrftoken'));
+        console.log('🔐 Session ID exists:', document.cookie.includes('sessionid'));
+        
+        // تست اولیه برای بررسی endpoint
+        const testResponse = await fetch('/analyze-skin/', {
+            method: 'GET',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken') || ''
+            }
+        });
+        
+        const testText = await testResponse.text();
+        console.log('🔍 تست GET response:', testText.substring(0, 200));
+        
+        // حالا درخواست POST اصلی
+        console.log('📤 ارسال درخواست POST...');
+        const response = await fetch('/analyze-skin/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken') || '',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                image_url: finalUrl
+            })
+        });
+        
+        const responseText = await response.text();
+        console.log('📥 پاسخ سرور:', responseText.substring(0, 500));
+        console.log('📊 وضعیت پاسخ:', response.status);
+        console.log('🔗 آدرس درخواست:', response.url);
+        
+        if (responseText.trim().startsWith('<!') || responseText.includes('<html')) {
+            console.error('❌ سرور صفحه HTML بازگردانده!');
+            if (responseText.includes('login') || responseText.includes('ورود')) {
+                throw new Error('احراز هویت ناموفق. لطفاً دوباره وارد شوید');
+            }
+            throw new Error('مشکل در سرور. لطفاً با پشتیبانی تماس بگیرید');
+        }
+        
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (e) {
+            console.error('❌ خطای JSON:', e);
+            throw new Error('پاسخ سرور معتبر نیست');
+        }
+        
+        if (response.ok) {
+            resultDiv.innerHTML = `
+                <div style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 4px; border: 1px solid #c3e6cb;">
+                    <strong>✅ تحلیل موفق!</strong><br>
+                    ${data.skin_concerns || 'هیچ موردی شناسایی نشد'}
+                </div>
+            `;
+            resultDiv.style.display = 'block';
+            urlInput.value = '';
+            
+        } else {
+            throw new Error(data.error || `خطای سرور: ${response.status}`);
+        }
+        
+    } catch (error) {
+        console.error('💥 خطای کامل:', error);
+        resultDiv.innerHTML = `
+            <div style="background-color: #f8d7da; color: #721c24; padding: 12px; border-radius: 4px; border: 1px solid #f5c6cb;">
+                <strong>❌ خطا!</strong><br>
+                ${error.message}<br>
+                <small>لطفاً F12 بزنید و Console را بررسی کنید</small>
+            </div>
+        `;
+        resultDiv.style.display = 'block';
+    } finally {
+        button.textContent = originalButtonText;
+        button.disabled = false;
+    }
+}
+</script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 prompt = """
+You are a dermatologist Ai. 
 Here is the results of a skin care quiz, designed to figure out the best skin care routine,
 and the best set of products the user can use. 
 Age: {age}
@@ -9,6 +10,7 @@ Skin Moisture: {skin_moisture}
 Skin Texture: {skin_texture}
 Skin Sensitivity Level: {skin_sensitivity}
 Sun Exposure Level: {sun_exposure}
+Skin_concerns = {skin_concerns}
 Favorite Product Type: {favorite_product_type}
 Allergic Substances(if any, blank if none exists): {if_allergic}
 
@@ -35,4 +37,17 @@ Return the answer as JSON in the following format:
 }}  
 (note that the generated routine string should be completely written in farsi(persian), and the title of each step,
 should be hyperlinked to the recommended product for that step(according to the instructions provided above).
+"""
+
+prompt_image_analysis = """
+You are a dermatologist Ai. 
+a selfie photo url is uploaded alongside the prompt.  
+Please:
+1- analyze the selfie photo.
+2- return the skin concerns that the person in the photo is exposed to or already has.
+3- return the answer as a JSON in the following format:
+{{
+    "skin_concerns" = "string"
+}}
+note that the string should contain the skin concerns, devided by '-' characters.
 """

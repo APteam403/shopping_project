@@ -24,7 +24,6 @@ class Profile(models.Model):
         verbose_name='حساب کاربری'
     )
     
-    # اطلاعات شخصی
     name = models.CharField(
         max_length=300,
         verbose_name='نام کامل',
@@ -65,7 +64,6 @@ class Profile(models.Model):
         null=True
     )
     
-    # اطلاعات پوست
     skin_type = models.IntegerField(
         choices=SkinType.choices,
         verbose_name='نوع پوست',
@@ -74,11 +72,10 @@ class Profile(models.Model):
     )
     
     skin_concerns = models.TextField(
-        verbose_name='نگرانی‌های پوستی',
+        verbose_name='مشکلات پوستی',
         blank=True
     )
-    
-    # تنظیمات و ترجیحات
+
     preferences = models.JSONField(
         verbose_name='مورد پسندها',
         default=list,
@@ -96,8 +93,7 @@ class Profile(models.Model):
         default=list,
         blank=True
     )
-    
-    # اطلاعات مکانی
+
     address = models.TextField(
         verbose_name='آدرس کامل',
         blank=True,

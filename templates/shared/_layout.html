@@ -39,10 +39,10 @@
             <!-- جستجو -->
             <div class="col-lg-7 col-md-6 d-none d-md-block">
                 <div class="search-box d-flex">
-                    <input type="text" class="search-input" placeholder="چه محصولی نیاز دارید؟...">
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <input type="text" class="search-input" placeholder="برای استفاده از موتور جستجو روی دکمه ذره بین کلیک کنید ...">
+                    <button class="search-btn" onclick="window.location.href='search-test'">
+    <i class="fas fa-search"></i>
+</button>
                 </div>
             </div>
             {% if user.is_authenticated %}
@@ -103,22 +103,31 @@
                         <i class="fas fa-bars"></i> همه دسته‌بندی‌ها
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">دسته‌بندی ۱</a></li>
-                        <li><a class="dropdown-item" href="#">دسته‌بندی ۲</a></li>
-                        <li><a class="dropdown-item" href="#">دسته‌بندی ۳</a></li>
+                    {% for i in categories %}
+                        <li><a class="dropdown-item" href="#">{{ i.name }}</a></li>
+                    {% endfor %}
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-fire"></i> پرفروش‌ترین‌ها</a>
+                    <a class="nav-link" href="#products-section"><i class="fas fa-fire"></i> پرفروش‌ترین‌ها</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-percentage"></i> تخفیف‌ها و پیشنهادها</a>
+                    <a class="nav-link" href="./views_hot"><i class="fas fa-percentage"></i> پربازدیدترین ها</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="../quiz/"><i class="fas fa-id-card"></i> کوئیز</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login_page' %}"><i class="fas fa-id-card"></i> کوئیز</a>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="../quiz/"><i class="fas fa-medal"></i> درباره ما</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="../quiz/"><i class="fas fa-medal"></i> کوئیز</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="../user/"><i class="fas fa-phone"></i> تماس با ما</a>
+                    <a class="nav-link" href="../user/"><i class="fas fa-person"></i> ثبت نام</a>
                 </li>
             </ul>
         </div>
@@ -221,7 +230,7 @@
     </section>
     
     <!-- محصولات پرفروش -->
-    <section class="products-section">
+    <section class="products-section" id="products-section">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h3 class="section-title2 animate-fade-in">پرفروش‌ترین محصولات</h3>
@@ -267,8 +276,8 @@
             <div class="row align-items-center">
                 <div class="col-lg-8">
                     <h2 class="offer-title">فروش ویژه تابستانه!</h2>
-                    <p class="offer-description">با خرید هر محصول مراقبت پوست، کرم ضد آفتاب با 50% تخفیف دریافت کنید. این پیشنهاد فقط تا پایان هفته معتبر است.</p>
-                    <a href="#" class="offer-btn">مشاهده محصولات <i class="fas fa-arrow-left ms-2"></i></a>
+                    <p class="offer-description">با خرید هر محصول مراقبت پوست، کرم ضد آفتاب با 50% تخفیف دریافت کنید.</p>
+                    <a href="category/anti-sun" class="offer-btn">مشاهده محصولات <i class="fas fa-arrow-left ms-2"></i></a>
                 </div>
                 <div class="col-lg-4 d-none d-lg-block">
                 </div>
@@ -369,9 +378,9 @@
                              class="blog-img" alt="راهنمای مراقبت پوست">
                         <div class="blog-body">
                             <h5 class="blog-title">راهنمای کامل مراقبت پوست در تابستان</h5>
-                            <p class="blog-date">۱۸ تیر ۱۴۰۲</p>
+                            <p class="blog-date">20 شهریور 1404</p>
                             <p class="blog-excerpt">نکات کلیدی برای مراقبت از پوست در فصل گرم تابستان و محصولات پیشنهادی برای هر نوع پوست...</p>
-                            <a href="#" class="read-more">ادامه مطلب <i class="fas fa-arrow-left"></i></a>
+                            <a href="weblog/" class="read-more">ادامه مطلب <i class="fas fa-arrow-left"></i></a>
                         </div>
                     </div>
                 </div>
@@ -382,10 +391,10 @@
                         <img src="/static/images/unnamed-file.jpg" 
                              class="blog-img" alt="مقایسه محصولات">
                         <div class="blog-body">
-                            <h5 class="blog-title">مقایسه بهترین کرم‌های ضد آفتاب ۲۰۲۳</h5>
-                            <p class="blog-date">۱۵ تیر ۱۴۰۲</p>
+                            <h5 class="blog-title">راهنمای کامل مراقبت پوست در تابستان</h5>
+                            <p class="blog-date">20 شهریور 1404</p>
                             <p class="blog-excerpt">بررسی تخصصی ۱۰ کرم ضد آفتاب برتر بازار بر اساس نوع پوست و نیازهای مختلف...</p>
-                            <a href="#" class="read-more">ادامه مطلب <i class="fas fa-arrow-left"></i></a>
+                            <a href="weblog/" class="read-more">ادامه مطلب <i class="fas fa-arrow-left"></i></a>
                         </div>
                     </div>
                 </div>
@@ -396,10 +405,10 @@
                         <img src="/static/images/unnamed-file.jpg" 
                              class="blog-img" alt="تکنولوژی‌های نوظهور">
                         <div class="blog-body">
-                            <h5 class="blog-title">جدیدترین تکنولوژی‌ها در محصولات مراقبت پوست</h5>
-                            <p class="blog-date">۱۰ تیر ۱۴۰۲</p>
+                            <h5 class="blog-title">راهنمای کامل مراقبت پوست در تابستان<h5>
+                            <p class="blog-date">20 شهریور 1404</p>
                             <p class="blog-excerpt">آشنایی با فناوری‌های پیشرفته در تولید محصولات مراقبت پوست و تأثیر آنها بر سلامت پوست...</p>
-                            <a href="#" class="read-more">ادامه مطلب <i class="fas fa-arrow-left"></i></a>
+                            <a href="weblog/" class="read-more">ادامه مطلب <i class="fas fa-arrow-left"></i></a>
                         </div>
                     </div>
                 </div>
