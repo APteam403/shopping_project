@@ -13,7 +13,7 @@ router.register('ingredients', views.IngredientViewSet)
 
 urlpatterns = [
     path('search-test/', views.search_test_page, name='search_test'),
-    # path('autocomplete/', views.ProductAutocompleteView.as_view(), name='product-autocomplete'),
+    path('autocomplete/', views.ProductAutocompleteView.as_view(), name='product-autocomplete'),
     path('', views.index_page, name='index_page'),
     path('weblog/', views.weblog, name='weblog_page'),
     path('about-us/', views.about_us, name='aboutus_page'),
