@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    image: myproject_web:latest
+    env_file: .env
+    environment:
+      - DJANGO_SETTINGS_MODULE=skincare.settings
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3       
+      - static_volume:/app/staticfiles 
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  static_volume:
