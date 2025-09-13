@@ -376,20 +376,12 @@
         <p><strong>حساسیت‌ها:</strong> {{ i.if_allergic|default:"-" }}</p>
 
     <div style="margin-top: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
-    <h4 style="margin-top: 0; color: #2c3e50;">باز کردن لینک عکس</h4>
-    <div>
-        <input type="url" id="userUrl" style="width: 100%; padding: 12px; border: 1px solid #000000; border-radius: 4px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; color: black;" placeholder="https://example.com/image.jpg" required>
-        <button onclick="openUserUrl(event)" style="background-color: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">باز کردن لینک</button>
-    </div>
-    <p style="font-size: 14px; color: #666; margin-top: 10px;">با کلیک روی دکمه، به لینک تصویر هدایت می‌شوید.</p>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">برای تحلیل تصویر چهره خود در سرچ بار مرورگر به این صورت جستجو کنید : http://127.0.0.1:8000/quiz/analyze-skin/?image_url=https://i.imgur.com/example-image.jpg</p>
 </div>
 
     <div style="margin-top: 25px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
-    <div>
-        <input type="url" id="userUrl" style="width: 100%; padding: 12px; border: 1px solid #000000; border-radius: 4px; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; color: black;" placeholder="https://example.com/quiz" required>
-        <button onclick="openUserUrl(event)" style="background-color: #4CAF50; color: white; border: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; transition: background-color 0.3s;">ساختن روتین پوستی</button>
-    </div>
-    <p style="font-size: 14px; color: #666; margin-top: 10px;">با کلیک روی دکمه مقابل بر اساس کوئیز داده شده و اطلاعات دیگر برای شما روتین جنریتور ساخته میشود.</p>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">برای ساختن روتین پوستی بر اساس کوئیز داده شده لطفا آدرس مقابل را در سرچ بار مرورگر وارد کنید : http://127.0.0.1:8000/quiz/generate-routine/</p>
+    <p style="font-size: 14px; color: #666; margin-top: 10px;">بعد از جستجو کردن این آدرس روتین برای شما ساخته میشود اما در آن صفحه نمیتوانید آن را مرتب شده ببینید، برای دیدن درست روتین ساخته شده به داشبورد خود برگشته و به بخش مشاهده روتین ها بروید</p>
 </div>
 </div>
     {% empty %}
@@ -476,6 +468,7 @@
             <div class="card">
               <h4>تراکنش‌های اخیر</h4>
               <div id="wallet-log" style="margin-top:12px;display:flex;flex-direction:column;gap:8px"></div>
+              <p>اطلاعات در اینجا میتواند به صورت داینامیک هم نمایش داده شود.</p>
             </div>
           </div>
         </div>

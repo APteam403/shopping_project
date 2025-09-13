@@ -12,7 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 from pathlib import Path
 import os
 
-OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY = "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"
+OPENROUTER_API_KEY_2 = "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"
 OPENROUTER_API_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 
 
