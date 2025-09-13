@@ -22,7 +22,7 @@ def save_routine(username, routine_text):
     try:
         with transaction.atomic():
             SkinCareRoutine.objects.create(
-                username=username,
+                username_user=username,
                 routine=routine_text,
             )
         return True
